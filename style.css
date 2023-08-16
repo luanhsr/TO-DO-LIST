@@ -1,0 +1,118 @@
+:root {
+    --main-bg-color:  #183940;
+    --main-bg2-color: #0e1d20;
+    --border: 2px solid #7CA68B;
+    --color2: #C4EEF2;
+    --boxShadow: 5px 5px 5px rgba(124, 166, 139, 0.1);
+}
+body{
+    background-color: var(--main-bg-color)
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--color2);
+}
+
+.profile {
+    border: var(--border);
+    box-shadow: var(--boxShadow);
+    border-radius: 8px;
+}
+
+.card-container{
+    /* */
+    display: flex; /* deixa todos os items lado a lado*/
+    justify-content: space-between; /* faz que todos os itens ocupam o mesmo espaco */
+}
+.card-container {
+    color: var(--color2);
+    flex: 1; /* Cada div vai ocupar uma proporção igual do espaço disponível */
+    margin: 0 10px;
+    padding: 10px;
+    border: var(--border);
+    background-color: var(--main-bg-color);
+    box-shadow: var(--boxShadow);
+    text-align: center;
+}
+.card-container .new-card-btn {
+    max-width: 300px;
+    max-height: 300px;
+    border: var(--border);
+    color: var(--main-bg-color);
+}
+.task-created,
+.task-doing,
+.task-completed {
+    border: var(--border);
+    box-shadow: var(--boxShadow);
+    border-radius: 8px;
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    margin: 0 10px;
+}
+
+.task-created, .task-completed, .task-doing  {
+    background-color: var(--main-bg2-color);
+}
+.card .head-card {
+    margin-top: 2px;
+    margin-bottom: 5px;
+    text-align: center;
+    border-bottom: var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.card h4 {
+    margin-left: 1%;
+}
+.card .edit-card {
+    margin-left: 2%;
+}
+.card .desc {
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.card .date-created-task{
+    font-size: 10px;
+}
+
+.card {
+    color: var(--main-bg-color);
+    background-color: var(--color2);
+    border: var(--border);
+    box-shadow: var(--boxShadow);
+    border-radius: 8px;
+    max-width: 450px;
+    margin-left: 8%;
+}
+
+.card .edit-card{
+   color: var(--main-bg2-color);
+   background-color: wheat;
+   border: var(--border);
+   border-radius: 8px;
+   margin-bottom: 3px;
+   max-height: 30px;
+   margin-right: 1px;
+}
+.card .desc {
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.card .date-created-task{
+    font-size: 10px;
+}
+
+
