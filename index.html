@@ -32,7 +32,7 @@
                         add
                     </span>
                 </button>
-                <div class="task-created" ondrop="drop(event)" ondragover="allowDrop(event)"> 
+                <div id="task-created"class="task-created" ondrop="drop(event)" ondragover="allowDrop(event)"> 
                     <h2>Tarefas Criadas</h2>
                     <div id="card"class="card" draggable="true" ondragstart="drag(event)">
                         <div class="head-card">
@@ -46,10 +46,10 @@
                        
                     </div>
                 </div>
-                  <div class="task-doing" ondrop="drop(event)" ondragover="allowDrop(event)"> 
+                  <div id="task-doing" class="task-doing" ondrop="drop(event)" ondragover="allowDrop(event)"> 
                     <h2>Fazendo</h2>
                 </div>
-                  <div class="task-completed" ondrop="drop(event)" ondragover="allowDrop(event)"> 
+                  <div id="task-completed" class="task-completed" ondrop="drop(event)" ondragover="allowDrop(event)"> 
                     <h2>Tarefas Concluidas</h2>
                 </div>
             </div>
