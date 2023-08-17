@@ -20,7 +20,7 @@ window.onload = () => {
         // INICIO titulo do card --------------------------------------------------------
         let createCardH4 = document.createElement('h4');
         createCardH4.innerHTML = 'Insira o nome da tarefa clicando no ícone de editar';
-        createCardHead.appendChild(createCardH4);
+        
         // FINAL  titulo do car------------------------------------------------------
 
         // INICIO Botão editar do card -------------------------------------------
@@ -44,8 +44,14 @@ window.onload = () => {
         let createPCard = document.createElement('p');
         createPCard.getAttribute('class' , 'desc');
         createPCard.innerHTML = 'Clique no botão de editar para inserir a descrição da sua tarefa aqui';
-        createCardBody.appendChild(createPCard);
         // FIM descrição do card ---------------------------------------------------
+
+        // INICIO data criação do card ---------------------------------------------------------
+        
+        let createSpanCardDate = document.createElement('span');
+        createSpanCardDate.getAttribute('class' , 'date-created-task');
+        createSpanCardDate.innerHTML = 'data aleatoria 16/08/2023'
+        
 
         // Adicionar a estrutura do card ao card
                 /*
@@ -60,27 +66,25 @@ window.onload = () => {
                         </div>
                        
                     </div>
-        */         
+        */      
+        taskCreatedContainer.appendChild(createCard);   
         createCard.appendChild(createCardHead);
-        createCard.appendChild(createCardBody);
-        createCardHead.appendChild(createCardButtonEdit)
+        createCardHead.appendChild(createCardH4);
+        createCardHead.appendChild(createCardButtonEdit);
         createCardButtonEdit.appendChild(createSpanI);
-    
-        
-        
-    
+        createCard.appendChild(createCardBody);
+        createCardBody.appendChild(createPCard);
+        createCardBody.appendChild(createSpanCardDate);
+                
         // Adicionar o novo card ao container adequado no DOM
         // Suponhamos que o container tenha o ID "card-container"
-        taskCreatedContainer.appendChild(createCard);
         
-   
         
     });
 
     const btnEditC = document.getElementById("edit-card");
     btnEditC.addEventListener('click', function() {
     const parentCard = this.closest('.card');
-    console.log(parentCard)
     if (parentCard) {
         const parentId = parentCard.id;
         let cardEdit =  document.getElementById(parentId);
