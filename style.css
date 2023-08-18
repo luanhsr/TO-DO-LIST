@@ -75,9 +75,16 @@ header {
 .card h4 {
     margin-left: 1%;
 }
-.card .edit-card {
-    margin-left: 2%;
-}
+.card .edit-card , .save-card{
+    color: var(--main-bg2-color);
+    background-color: wheat;
+    border: var(--border);
+    border-radius: 8px;
+    margin-bottom: 3px;
+    max-height: 30px;
+    margin-right: 2%;
+ }
+
 .card .desc {
     font-size: 14px;
     margin-top: 5px;
@@ -97,15 +104,7 @@ header {
     margin-left: 8%;
 }
 
-.card .edit-card{
-   color: var(--main-bg2-color);
-   background-color: wheat;
-   border: var(--border);
-   border-radius: 8px;
-   margin-bottom: 3px;
-   max-height: 30px;
-   margin-right: 1px;
-}
+
 .card .desc {
     font-size: 14px;
     margin-top: 5px;
