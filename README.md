@@ -6,6 +6,6 @@
 </p>
 <br>
 <t> </t>
-<p> Inspirado em uma versão simplificada do <b> Trello </b> mas não foi utilizado <p> nem um modelo de código </p> como exemplo ou base </p>
+<p> Inspirado em uma versão simplificada do <b> Trello </b> mas não foi utilizado <b> nem um modelo de código </b> como exemplo ou base </b>
 referência: <a href:'https://trello.com'>Trello link</a> 
 
