@@ -1,4 +1,7 @@
 window.onload = () => {
+    //if (localStorage.ObjTask != null) {
+    //    const cards = JSON.parse(localStorage.getItem('itens'))
+   // } 
     const newCardButton = document.getElementById("new-card-btn");
     const taskCreatedContainer = document.getElementById("task-created"); 
     newCardButton.addEventListener('click', () => {
@@ -86,32 +89,43 @@ window.onload = () => {
             // um some o outro aparece.
         } 
     });
-    tasksLS = []; // array para receber notas 
+    ArrayTaskLS = []; // array para receber notas 
     btnSave.addEventListener('click', function() { // ao clicar
         let displayVal = btnSave.style.display; // pega o atributo display do botão save
         if (displayVal == 'block') { // verifica se está block 
-            let task = new Object();
-            let parentCard = this.closest('.card');
-            let parentId = parentCard.id; // pega o id desse elemento pai 
-            let cardSave =  document.getElementById(parentId); // pega o elemento pai selecionado no documento.
-            let saveElements = cardSave.querySelectorAll( '.title , .desc , .date-created-task'); // pega todos os elementos P e H4 e salva em um array
-                saveElements.forEach(element => { // faz uma busca em todos os elementos desse Array
-                    if (element == '.title') {
-                        task["title"] = element.innerHTML;
-                        console.log(element.innerHTML);
-                    } 
-                    if (element == '.desc') {
-                        task["desc"] = element.innerHTML;
-                        console.log(element.innerHTML);
-                    }
-                    if (element == '.date-created-task') {
-                        task[".date-created-task"] = element.innerHTML;
-                        console.log(element.innerHTML);
-                    }
-                });
-            localStorage.setItem('task', JSON.stringify(userArray));
+            let ObjTask = new Object();
+            let parentCard = this.closest('.card'); // cartão ta aqui
+            let saveElements = parentCard.querySelectorAll( '.title , .desc , .date-created-task'); // pega todos os elementos P e H4 e salva em um array  
+            console.log(parentCard.id)
+            saveElements.forEach(element => { // faz uma busca em todos os elementos desse Array
+                if (element.className == 'title') {
+                    ObjTask["title"] = element; // coloca o elemento dentro do array task 
+                    element.setAttribute('contenteditable', 'false'); // ao salvar o elemento deixa de ser editável.
+                }
+                if (element.className == 'desc') {
+                    ObjTask["desc"] = element;
+                    element.setAttribute('contenteditable', 'false');
+                }
+                if (element.className == 'date-created-task') {
+                    ObjTask["date-created-task"] = element;
+                    element.setAttribute('contenteditable', 'false');
+                }
+
+            });
+            ObjTask['id'] = parentCard.id; // salva o id da task especifica selecionada.
+            ArrayTaskLS.push(ObjTask);
+            //localStorage.setItem('taskLS', JSON.stringify(taskLS)); // salva o objeto no localStorage (transforma em string pois localStorage só salva strings)
             btnEditC.style.display = 'block'; // torna o botão EDIT visível.
             btnSave.style.display = 'none'; // torna o botão save invisível.
+
+            function isSaved (ObjTask) { // função para retornar o id para poder realizar a verificação
+                return ObjTask.id === parentCard.id; // uma função que verifica se tem o id que está no cartão, já salvo no array
+            }
+            if (ArrayTaskLS.find(isSaved).id == parentCard.id) { // se já tiver o elemento, irá editar o indice.
+                console.log('já tem no array');
+            } else {
+                console.log('não tem no array'); // se não tiver, vai salvar.
+            }
         }
     });
 
@@ -125,24 +139,30 @@ function allowDrop(event) {
 }
 
 function drag(event) {
-    event.dataTransfer.setData('text', event.target.id);
+    event.dataTransfer.setData('text', event.target.id); // função ativada ao clicar e segurar o elemento, ele pode ser arrastado
 }
+function drop(event) { // função ativa ao soltar o elemento.
+    event.preventDefault(); // previne que o navegador não execute comportamento padrão de arrastar soltar, por exemplo abrir imagem em outra guia
+    const data = event.dataTransfer.getData('text'); // transfere todos os dados, no caso para tipo texto;
+    const draggedElement = document.getElementById(data); // pega o elemento com o id exclusivo
+    event.target.appendChild(draggedElement); // aqui adiciona o cartão ao container que ele vai ser arrastado
+    const targetContainer = event.target; // verifica em qual local o elemento é solto;
+    // os ifs realiza cada comportamento conforme o cartão é solto em containers diferentes: 
+    if (targetContainer.id === "task-created") { 
+        draggedElement.setAttribute('container', targetContainer.id);
+        console.log(targetContainer.id);    
+        console.log(draggedElement);
+        // nunca usar atributos css para programar.
 
-function drop(event) {
-    event.preventDefault();
-    const data = event.dataTransfer.getData('text');
-    const draggedElement = document.getElementById(data);
-    event.target.appendChild(draggedElement);
-    const targetContainer = event.target;
-    if (targetContainer.id == "task-completed") {
-        let elements =  targetContainer.id.childNodes;
-        console.log(elements);
-    } else if (targetContainer.id == "task-doing") {
-        let elements =  targetContainer.id.childNodes;
-        console.log(elements);
-    } else if (targetContainer.id == "task-completed" ); {
-        let elements =  targetContainer.id.childNodes;
-        console.log(elements);
+    }if (targetContainer.id === "task-doing") {
+        draggedElement.setAttribute('container', targetContainer.id);
+        console.log(targetContainer.id);
+        console.log(draggedElement);
+        
+    }if (targetContainer.id === "task-completed" ) {
+        draggedElement.setAttribute('container', targetContainer.id);
+        console.log(targetContainer.id);
+        console.log(draggedElement);
     }
 }
 // fim drag drop dos cartõe
