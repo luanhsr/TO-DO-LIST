@@ -72,7 +72,7 @@ window.onload = () => {
         if (displayVal ==  'block') { // se estiver block (padrão) quer dizer que está visível então poderá realizar as instruções
             const parentCard = this.closest('.card'); // pega o elemento parente pai clicado.
             if (parentCard) {
-                const parentId = parentCard.id; // pega o id desse elemento pai 
+                let parentId = parentCard.id; // pega o id desse elemento pai 
                 let cardEdit =  document.getElementById(parentId); // pega o elemento pai selecionado no documento.
                 let editableElements = cardEdit.querySelectorAll('P, h4' ); // pega todos os elementos P e H4 e salva em um array
                 editableElements.forEach(element => { // faz uma busca em todos os elementos desse Array
@@ -86,9 +86,30 @@ window.onload = () => {
             // um some o outro aparece.
         } 
     });
+    tasksLS = []; // array para receber notas 
     btnSave.addEventListener('click', function() { // ao clicar
         let displayVal = btnSave.style.display; // pega o atributo display do botão save
         if (displayVal == 'block') { // verifica se está block 
+            let task = new Object();
+            let parentCard = this.closest('.card');
+            let parentId = parentCard.id; // pega o id desse elemento pai 
+            let cardSave =  document.getElementById(parentId); // pega o elemento pai selecionado no documento.
+            let saveElements = cardSave.querySelectorAll( '.title , .desc , .date-created-task'); // pega todos os elementos P e H4 e salva em um array
+                saveElements.forEach(element => { // faz uma busca em todos os elementos desse Array
+                    if (element == '.title') {
+                        task["title"] = element.innerHTML;
+                        console.log(element.innerHTML);
+                    } 
+                    if (element == '.desc') {
+                        task["desc"] = element.innerHTML;
+                        console.log(element.innerHTML);
+                    }
+                    if (element == '.date-created-task') {
+                        task[".date-created-task"] = element.innerHTML;
+                        console.log(element.innerHTML);
+                    }
+                });
+            localStorage.setItem('task', JSON.stringify(userArray));
             btnEditC.style.display = 'block'; // torna o botão EDIT visível.
             btnSave.style.display = 'none'; // torna o botão save invisível.
         }
@@ -99,6 +120,8 @@ window.onload = () => {
 // drag e drop dos cartões: 
 function allowDrop(event) {
     event.preventDefault();
+
+
 }
 
 function drag(event) {
@@ -110,5 +133,16 @@ function drop(event) {
     const data = event.dataTransfer.getData('text');
     const draggedElement = document.getElementById(data);
     event.target.appendChild(draggedElement);
+    const targetContainer = event.target;
+    if (targetContainer.id == "task-completed") {
+        let elements =  targetContainer.id.childNodes;
+        console.log(elements);
+    } else if (targetContainer.id == "task-doing") {
+        let elements =  targetContainer.id.childNodes;
+        console.log(elements);
+    } else if (targetContainer.id == "task-completed" ); {
+        let elements =  targetContainer.id.childNodes;
+        console.log(elements);
+    }
 }
 // fim drag drop dos cartõe

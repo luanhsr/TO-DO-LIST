@@ -5,6 +5,9 @@
     --color2: #C4EEF2;
     --boxShadow: 5px 5px 5px rgba(124, 166, 139, 0.1);
 }
+.nav-bar {
+    position: fixed;
+}
 body{
     background-color: var(--main-bg-color)
 }
