@@ -1,7 +1,8 @@
 window.onload = () => {
-    //if (localStorage.ObjTask != null) {
-    //    const cards = JSON.parse(localStorage.getItem('itens'))
-   // } 
+    if (localStorage.taskLS != null) {
+        ArrayTaskLS = JSON.parse(localStorage.getItem('taskLS'));
+        console.log(ArrayTaskLS);
+    } 
     const newCardButton = document.getElementById("new-card-btn");
     const taskCreatedContainer = document.getElementById("task-created"); 
     newCardButton.addEventListener('click', () => {
@@ -96,7 +97,6 @@ window.onload = () => {
             let ObjTask = new Object();
             let parentCard = this.closest('.card'); // cartão ta aqui
             let saveElements = parentCard.querySelectorAll( '.title , .desc , .date-created-task'); // pega todos os elementos P e H4 e salva em um array  
-            console.log(parentCard.id)
             saveElements.forEach(element => { // faz uma busca em todos os elementos desse Array
                 if (element.className == 'title') {
                     ObjTask["title"] = element; // coloca o elemento dentro do array task 
@@ -113,19 +113,31 @@ window.onload = () => {
 
             });
             ObjTask['id'] = parentCard.id; // salva o id da task especifica selecionada.
-            ArrayTaskLS.push(ObjTask);
-            //localStorage.setItem('taskLS', JSON.stringify(taskLS)); // salva o objeto no localStorage (transforma em string pois localStorage só salva strings)
-            btnEditC.style.display = 'block'; // torna o botão EDIT visível.
+            
+            
             btnSave.style.display = 'none'; // torna o botão save invisível.
+            btnEditC.style.display = 'block'; 
 
-            function isSaved (ObjTask) { // função para retornar o id para poder realizar a verificação
-                return ObjTask.id === parentCard.id; // uma função que verifica se tem o id que está no cartão, já salvo no array
+            function isSaved(task) { // funcao que retorna uma comparacao entre o id da task com o id do card selecionado
+                return task.id === parentCard.id; 
             }
-            if (ArrayTaskLS.find(isSaved).id == parentCard.id) { // se já tiver o elemento, irá editar o indice.
-                console.log('já tem no array');
+
+            let existingTask = ArrayTaskLS.find(isSaved); // uma variavel que ira receber se existe uma task no array ja salva com o id selecionado
+            if (existingTask) {
+                // se existir, ira substituir
+                existingTask.title = ObjTask.title;
+                existingTask.desc = ObjTask.desc;
+                existingTask["date-created-task"] = ObjTask["date-created-task"];
+                console.log('encontrado e editado')
+                
             } else {
-                console.log('não tem no array'); // se não tiver, vai salvar.
+                // se nao existir ira salvar
+                console.log('Não encontrado no array');
+                ArrayTaskLS.push(ObjTask);
+                console.log('Agora foi salvo');
             }
+            ObjTask['position'] = parentCard.getAttribute('container');
+            localStorage.setItem('taskLS', JSON.stringify(ArrayTaskLS)); 
         }
     });
 
