@@ -1,9 +1,8 @@
+setupEditButtuns (); 
+setupSaveButtuns();
 if (localStorage.taskLS != null) {
     ArrayTaskLS = JSON.parse(localStorage.getItem('taskLS'));
-    setupEditSaveButtons ();
-
 } 
-setupEditSaveButtons ();
 const taskCreatedContainer = document.getElementById("task-created"); 
 const newCardButton = document.querySelector("#new-card-btn");
 function newTask() {
@@ -67,45 +66,83 @@ function newTask() {
         createCard.appendChild(createCardBody);
         createCardBody.appendChild(createPCard);
         createCardBody.appendChild(createSpanCardDate);
+        setupEditButtuns(); 
+        setupSaveButtuns();
 }
 newCardButton.addEventListener('click', () => {
     newTask();    
-    setupEditSaveButtons (); 
 });
 
-/*
-btnSave.addEventListener('click', function() { // ao clicar
-        let displayVal = btnSave.style.display; // pega o atributo display do botão save
-        if (displayVal == 'block') { // verifica se está block 
+ArrayTaskLS = []; // array para receber notas 
+function setupEditButtuns () {
+    document.querySelector('#task-created').addEventListener('click', function (e) { // atribunduindo a funcao no click
+        let editButton = e.target.closest('#edit-card');
+        if (editButton && editButton.style.display == 'block') {
+            console.log(editButton);
+            let parentCard = editButton.closest('.card');
+            if (parentCard) {
+                let displayVal = editButton.style.display;
+                if (displayVal === 'block') {
+                    let editableElements = parentCard.querySelectorAll('p, h4, button');
+                    editableElements.forEach(element => {
+                        if (element.tagName === 'P' || element.tagName === 'H4') {
+                            element.setAttribute('contenteditable', 'true');
+                        }
+                        if (element.tagName.toLowerCase() ==='button') {
+                            if (element.id == ('save-card')) {
+                                saveButton = element;
+                            }
+                        }
+                    });
+                    editButton.style.display = 'none';
+                    saveButton.style.display = 'block';
+                }
+            }
+        }
+
+    });
+    
+}
+
+function setupSaveButtuns () {
+
+    document.querySelector('#task-created').addEventListener('click', function (e) { // atribunduindo a funcao no click
+        let saveButton = e.target.closest('#save-card');
+        if (saveButton && saveButton.style.display == 'block') {
             let ObjTask = new Object();
-            let parentCard = this.closest('.card'); // cartão ta aqui
-            let saveElements = parentCard.querySelectorAll( '.title , .desc , .date-created-task'); // pega todos os elementos P e H4 e salva em um array  
-            saveElements.forEach(element => { // faz uma busca em todos os elementos desse Array
-                if (element.className == 'title') {
-                    console.log(element);
-                    ObjTask["title"] = element.innerHTML; // coloca o elemento dentro do array task 
-                    element.setAttribute('contenteditable', 'false'); // ao salvar o elemento deixa de ser editável.
+            let parentCard = saveButton.closest('.card');
+            if (parentCard) {
+                let displayVal = saveButton.style.display;
+                if (displayVal === 'block') {
+                    let editableElements = parentCard.querySelectorAll('.title , .desc , .date-created-task, button');
+                    editableElements.forEach(element => {
+                        if (element.className == 'title'){
+                            ObjTask["title"] = element.innerHTML;
+                            element.setAttribute('contenteditable', 'false');
+                        }
+                        if (element.className == 'desc'){
+                            ObjTask["desc"] = element.innerHTML;
+                            element.setAttribute('contenteditable', 'false');
+                        }
+                        if (element.className == 'date-created-task'){
+                            ObjTask["dateCreatedTask"] = element.innerHTML;
+                            element.setAttribute('contenteditable', 'false');
+                        }
+                        if (element.tagName.toLowerCase() ==='button') {
+                            if (element.id == ('edit-card')) {
+                                editButton = element;
+                            }
+                        }
+                    });
+                    editButton.style.display = 'block';
+                    saveButton.style.display = 'none';
                 }
-                if (element.className == 'desc') {
-                    ObjTask["desc"] = element.innerHTML;
-                    element.setAttribute('contenteditable', 'false');
-                }
-                if (element.className == 'date-created-task') {
-                    ObjTask["date-created-task"] = element.innerHTML;
-                    element.setAttribute('contenteditable', 'false');
-                }
-
-            });
+            }
             ObjTask['id'] = parentCard.id; // salva o id da task especifica selecionada.
-            
-            
-            btnSave.style.display = 'none'; // torna o botão save invisível.
-            btnEditC.style.display = 'block'; 
-
             function isSaved(task) { // funcao que retorna uma comparacao entre o id da task com o id do card selecionado
+                // isso e para que a funcao nativa find funcione do jeito que eu quero.
                 return task.id === parentCard.id; 
             }
-
             let existingTask = ArrayTaskLS.find(isSaved); // uma variavel que ira receber se existe uma task no array ja salva com o id selecionado
             if (existingTask) {
                 // se existir, ira substituir
@@ -123,36 +160,8 @@ btnSave.addEventListener('click', function() { // ao clicar
             ObjTask['position'] = parentCard.getAttribute('container');
             localStorage.setItem('taskLS', JSON.stringify(ArrayTaskLS)); 
         }
-});
-
-*/
-
-// drag e drop dos cartões: 
-
-ArrayTaskLS = []; // array para receber notas 
-function setupEditSaveButtons () {
-    document.querySelector('#task-created').addEventListener('click', function (e) {
-        const editButton = e.target.closest('#edit-card');
-        const saveButton = e.target.closest('#save-card');
-        console.log(saveButton)
-        console.log(editButton)
-        if (editButton) {
-            const parentCard = editButton.closest('.card');
-            console.log(parentCard)
-            if (parentCard) {
-                const displayVal = editButton.style.display;
-                if (displayVal === 'block') {
-                    const editableElements = parentCard.querySelectorAll('p, h4, button');
-                    editableElements.forEach(element => {
-                        if (element.tagName === 'P' || element.tagName === 'H4') {
-                            element.setAttribute('contenteditable', 'true');
-                        }
-                    });
-                    editButton.style.display = 'none';
-                }
-            }
-        }
     });
+    
 }
 
 function allowDrop(event) {
@@ -173,19 +182,13 @@ function drop(event) { // função ativa ao soltar o elemento.
     // os ifs realiza cada comportamento conforme o cartão é solto em containers diferentes: 
     if (targetContainer.id === "task-created") { 
         draggedElement.setAttribute('container', targetContainer.id);
-        console.log(targetContainer.id);    
-        console.log(draggedElement);
         // nunca usar atributos css para programar.
 
     }if (targetContainer.id === "task-doing") {
         draggedElement.setAttribute('container', targetContainer.id);
-        console.log(targetContainer.id);
-        console.log(draggedElement);
         
     }if (targetContainer.id === "task-completed" ) {
         draggedElement.setAttribute('container', targetContainer.id);
-        console.log(targetContainer.id);
-        console.log(draggedElement);
     }
 }
 // fim drag drop dos cartõe

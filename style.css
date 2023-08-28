@@ -5,8 +5,15 @@
     --color2: #C4EEF2;
     --boxShadow: 5px 5px 5px rgba(124, 166, 139, 0.1);
 }
+.menu-cards {
+    margin-top: 5%;
+}
 .nav-bar {
     position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Para garantir que a barra de navegação esteja acima de outros elementos */
 }
 body{
     background-color: var(--main-bg-color)
