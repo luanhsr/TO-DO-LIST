@@ -3,6 +3,7 @@ setupSaveButtuns();
 if (localStorage.taskLS != null) {
     ArrayTaskLS = JSON.parse(localStorage.getItem('taskLS'));
 } 
+setupEditButtuns ();
 const taskCreatedContainer = document.getElementById("task-created"); 
 const newCardButton = document.querySelector("#new-card-btn");
 function newTask() {
@@ -23,6 +24,7 @@ function newTask() {
         
         // INICIO titulo do card --------------------------------------------------------
         let createCardH4 = document.createElement('h4');
+        createCardH4.setAttribute('class' , 'title');
         createCardH4.innerHTML = 'Insira o nome da tarefa clicando no ícone de editar';
         
         // FINAL  titulo do car------------------------------------------------------
@@ -40,6 +42,20 @@ function newTask() {
         
         // FINAL  icone google span do card -------------------------------------------
 
+        // INICIO Botão Salvar do card -------------------------------------------
+
+
+            let createCardButtonSave = document.createElement('button');
+            createCardButtonSave.setAttribute('id', 'save-card');
+            createCardButtonSave.setAttribute('class', 'save-card');
+            // FINAL botão Salvar do card ------------------------------------------------
+
+            // INICIO icone Salvar google span do card -------------------------------------------
+            let createSpanSave = document.createElement('span');
+            createSpanSave.setAttribute('class', 'material-symbols-outlined');
+            createSpanSave.textContent = 'save';
+
+         // FINAL  icone  Salvar google span do card -------------------------------------------
         // INICIO corpo do card -----------------------------------------------
         let createCardBody = document.createElement('div');
         createCardBody.setAttribute('class' , 'body-card');
@@ -63,11 +79,13 @@ function newTask() {
         createCardHead.appendChild(createCardH4);
         createCardHead.appendChild(createCardButtonEdit);
         createCardButtonEdit.appendChild(createSpanI);
+        createCardHead.appendChild(createCardButtonSave);
+        createCardButtonSave.appendChild(createSpanSave);
         createCard.appendChild(createCardBody);
         createCardBody.appendChild(createPCard);
         createCardBody.appendChild(createSpanCardDate);
-        setupEditButtuns(); 
-        setupSaveButtuns();
+        createCardButtonSave.style.display = 'none';
+        createCardButtonEdit.style.display = 'block';
 }
 newCardButton.addEventListener('click', () => {
     newTask();    
