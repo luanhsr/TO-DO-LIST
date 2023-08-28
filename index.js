@@ -1,12 +1,12 @@
-window.onload = () => {
-    if (localStorage.taskLS != null) {
-        ArrayTaskLS = JSON.parse(localStorage.getItem('taskLS'));
-        console.log(ArrayTaskLS);
-    } 
-    const newCardButton = document.getElementById("new-card-btn");
-    const taskCreatedContainer = document.getElementById("task-created"); 
-    newCardButton.addEventListener('click', () => {
-       
+if (localStorage.taskLS != null) {
+    ArrayTaskLS = JSON.parse(localStorage.getItem('taskLS'));
+    setupEditSaveButtons ();
+
+} 
+setupEditSaveButtons ();
+const taskCreatedContainer = document.getElementById("task-created"); 
+const newCardButton = document.querySelector("#new-card-btn");
+function newTask() {
         let idRandon = Math.random();
 
         // Criar o elemento div para o card
@@ -38,6 +38,7 @@ window.onload = () => {
         let createSpanI = document.createElement('span');
         createSpanI.setAttribute('class', 'material-symbols-outlined');
         createSpanI.textContent = 'edit';
+        
         // FINAL  icone google span do card -------------------------------------------
 
         // INICIO corpo do card -----------------------------------------------
@@ -66,32 +67,14 @@ window.onload = () => {
         createCard.appendChild(createCardBody);
         createCardBody.appendChild(createPCard);
         createCardBody.appendChild(createSpanCardDate);
-        
-    });
+}
+newCardButton.addEventListener('click', () => {
+    newTask();    
+    setupEditSaveButtons (); 
+});
 
-    const btnEditC = document.getElementById("edit-card");
-    const btnSave = document.getElementById("save-card");
-    btnEditC.addEventListener('click', function() {
-        let displayVal = btnEditC.style.display; // variável recebe o display do elemento, para verificar se está padrão ou none
-        if (displayVal ==  'block') { // se estiver block (padrão) quer dizer que está visível então poderá realizar as instruções
-            const parentCard = this.closest('.card'); // pega o elemento parente pai clicado.
-            if (parentCard) {
-                let parentId = parentCard.id; // pega o id desse elemento pai 
-                let cardEdit =  document.getElementById(parentId); // pega o elemento pai selecionado no documento.
-                let editableElements = cardEdit.querySelectorAll('P, h4' ); // pega todos os elementos P e H4 e salva em um array
-                editableElements.forEach(element => { // faz uma busca em todos os elementos desse Array
-                    if (element.tagName == 'P' || element.tagName =='H4') { // se os elementos forem Parágrafo ou Titulo H4
-                        element.setAttribute('contenteditable', 'true');   // recebe o atributo citado os tornando editáveis.
-                    }
-                }); 
-            }
-            btnEditC.style.display = 'none'; // transforma o botão de editar com o estilo 'none'
-            btnSave.style.display = 'block'; // transforma o botão salvar com o estilo block
-            // um some o outro aparece.
-        } 
-    });
-    ArrayTaskLS = []; // array para receber notas 
-    btnSave.addEventListener('click', function() { // ao clicar
+/*
+btnSave.addEventListener('click', function() { // ao clicar
         let displayVal = btnSave.style.display; // pega o atributo display do botão save
         if (displayVal == 'block') { // verifica se está block 
             let ObjTask = new Object();
@@ -99,15 +82,16 @@ window.onload = () => {
             let saveElements = parentCard.querySelectorAll( '.title , .desc , .date-created-task'); // pega todos os elementos P e H4 e salva em um array  
             saveElements.forEach(element => { // faz uma busca em todos os elementos desse Array
                 if (element.className == 'title') {
-                    ObjTask["title"] = element; // coloca o elemento dentro do array task 
+                    console.log(element);
+                    ObjTask["title"] = element.innerHTML; // coloca o elemento dentro do array task 
                     element.setAttribute('contenteditable', 'false'); // ao salvar o elemento deixa de ser editável.
                 }
                 if (element.className == 'desc') {
-                    ObjTask["desc"] = element;
+                    ObjTask["desc"] = element.innerHTML;
                     element.setAttribute('contenteditable', 'false');
                 }
                 if (element.className == 'date-created-task') {
-                    ObjTask["date-created-task"] = element;
+                    ObjTask["date-created-task"] = element.innerHTML;
                     element.setAttribute('contenteditable', 'false');
                 }
 
@@ -139,11 +123,38 @@ window.onload = () => {
             ObjTask['position'] = parentCard.getAttribute('container');
             localStorage.setItem('taskLS', JSON.stringify(ArrayTaskLS)); 
         }
-    });
+});
 
-};
+*/
 
 // drag e drop dos cartões: 
+
+ArrayTaskLS = []; // array para receber notas 
+function setupEditSaveButtons () {
+    document.querySelector('#task-created').addEventListener('click', function (e) {
+        const editButton = e.target.closest('#edit-card');
+        const saveButton = e.target.closest('#save-card');
+        console.log(saveButton)
+        console.log(editButton)
+        if (editButton) {
+            const parentCard = editButton.closest('.card');
+            console.log(parentCard)
+            if (parentCard) {
+                const displayVal = editButton.style.display;
+                if (displayVal === 'block') {
+                    const editableElements = parentCard.querySelectorAll('p, h4, button');
+                    editableElements.forEach(element => {
+                        if (element.tagName === 'P' || element.tagName === 'H4') {
+                            element.setAttribute('contenteditable', 'true');
+                        }
+                    });
+                    editButton.style.display = 'none';
+                }
+            }
+        }
+    });
+}
+
 function allowDrop(event) {
     event.preventDefault();
 
