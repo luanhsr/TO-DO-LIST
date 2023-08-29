@@ -15,6 +15,7 @@ function newTask() {
         createCard.setAttribute('class', 'card');
         createCard.setAttribute('draggable', 'true');
         createCard.setAttribute('ondragstart', 'drag(event)');
+        createCard.setAttribute('container', 'task-created')
     
         // Criar a estrutura do card
         // INICIO header do card -----------------------------------------------------
@@ -93,7 +94,7 @@ newCardButton.addEventListener('click', () => {
 
 ArrayTaskLS = []; // array para receber notas 
 function setupEditButtuns () {
-    document.querySelector('#task-created').addEventListener('click', function (e) { // atribunduindo a funcao no click
+    document.querySelector('.menu-cards').addEventListener('click', function (e) { // atribunduindo a funcao no click
         let editButton = e.target.closest('#edit-card');
         if (editButton && editButton.style.display == 'block') {
             console.log(editButton);
@@ -124,7 +125,7 @@ function setupEditButtuns () {
 
 function setupSaveButtuns () {
 
-    document.querySelector('#task-created').addEventListener('click', function (e) { // atribunduindo a funcao no click
+    document.querySelector('.menu-cards').addEventListener('click', function (e) { // atribunduindo a funcao no click
         let saveButton = e.target.closest('#save-card');
         if (saveButton && saveButton.style.display == 'block') {
             let ObjTask = new Object();
@@ -154,6 +155,7 @@ function setupSaveButtuns () {
                     });
                     editButton.style.display = 'block';
                     saveButton.style.display = 'none';
+                    ObjTask['container'] = parentCard.getAttribute('container');
                 }
             }
             ObjTask['id'] = parentCard.id; // salva o id da task especifica selecionada.
@@ -166,8 +168,9 @@ function setupSaveButtuns () {
                 // se existir, ira substituir
                 existingTask.title = ObjTask.title;
                 existingTask.desc = ObjTask.desc;
-                existingTask["date-created-task"] = ObjTask["date-created-task"];
-                console.log('encontrado e editado')
+                existingTask.dateCreatedTask = ObjTask.dateCreatedTask;
+                existingTask.container = ObjTask.container;
+                console.log('editado')
                 
             } else {
                 // se nao existir ira salvar
