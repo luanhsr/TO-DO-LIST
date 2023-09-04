@@ -94,7 +94,15 @@ header {
     max-height: 30px;
     margin-right: 2%;
  }
-
+.card .delete-card {
+    color: red;
+    background-color: wheat;
+    border: var(--border);
+    border-color: red;
+    border-radius: 5px;
+    max-height: 30px;
+    margin: 5px;
+}
 .card .desc {
     font-size: 14px;
     margin-top: 5px;
@@ -112,6 +120,7 @@ header {
     border-radius: 8px;
     max-width: 450px;
     margin-left: 8%;
+    margin-bottom: 10px;
 }
 
 

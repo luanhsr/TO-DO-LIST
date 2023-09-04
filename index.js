@@ -1,9 +1,11 @@
-setupEditButtuns (); 
-setupSaveButtuns();
+setupEditButtons (); 
+setupSaveButtons();
+setupDeleteButtons ();
+
 if (localStorage.taskLS != null) {
     ArrayTaskLS = JSON.parse(localStorage.getItem('taskLS'));
 } 
-setupEditButtuns ();
+setupEditButtons ();
 const taskCreatedContainer = document.getElementById("task-created"); 
 const newCardButton = document.querySelector("#new-card-btn");
 function newTask() {
@@ -57,6 +59,21 @@ function newTask() {
             createSpanSave.textContent = 'save';
 
          // FINAL  icone  Salvar google span do card -------------------------------------------
+
+         
+        // INICIO Botão editar do card -------------------------------------------
+        let createDeletCardButton = document.createElement('button');
+        createDeletCardButton.setAttribute('id', 'delete-card');
+        createDeletCardButton.setAttribute('class', 'delete-card');
+        // FINAL botão editar do card ------------------------------------------------
+
+        // INICIO icone google span do card -------------------------------------------
+        let createSpanDelete = document.createElement('span');
+        createSpanDelete.setAttribute('class', 'material-symbols-outlined');
+        createSpanDelete.textContent = 'delete';
+        
+        // FINAL  icone google span do card -------------------------------------------
+
         // INICIO corpo do card -----------------------------------------------
         let createCardBody = document.createElement('div');
         createCardBody.setAttribute('class' , 'body-card');
@@ -84,7 +101,9 @@ function newTask() {
         createCardButtonSave.appendChild(createSpanSave);
         createCard.appendChild(createCardBody);
         createCardBody.appendChild(createPCard);
-        createCardBody.appendChild(createSpanCardDate);
+        createCardBody.appendChild(createSpanCardDate); // nao e icone e apenas um span
+        createCardBody.appendChild(createDeletCardButton);
+        createDeletCardButton.appendChild(createSpanDelete);
         createCardButtonSave.style.display = 'none';
         createCardButtonEdit.style.display = 'block';
 }
@@ -93,11 +112,10 @@ newCardButton.addEventListener('click', () => {
 });
 
 ArrayTaskLS = []; // array para receber notas 
-function setupEditButtuns () {
+function setupEditButtons () {
     document.querySelector('.menu-cards').addEventListener('click', function (e) { // atribunduindo a funcao no click
         let editButton = e.target.closest('#edit-card');
         if (editButton && editButton.style.display == 'block') {
-            console.log(editButton);
             let parentCard = editButton.closest('.card');
             if (parentCard) {
                 let displayVal = editButton.style.display;
@@ -123,7 +141,42 @@ function setupEditButtuns () {
     
 }
 
-function setupSaveButtuns () {
+function setupDeleteButtons () {
+    document.querySelector('.menu-cards').addEventListener('click', function (e) { 
+        let deletButton = e.target.closest('#delete-card');
+        if (deletButton) {
+            let parentCard = deletButton.closest('.card');
+            var r=confirm("Deseja excluir a nota?");
+            if (r==true)
+              { 
+                parentCard.remove();
+                
+                function isSaved(task) { // funcao que retorna uma comparacao entre o id da task com o id do card selecionado
+                    // isso e para que a funcao nativa find funcione do jeito que eu quero.
+                    return task.id === parentCard.id; 
+                }
+                let existingTask = ArrayTaskLS.find(isSaved); // uma variavel que ira receber se existe uma task no array ja salva com o id selecionado
+                if (existingTask) {
+                    // se existir, ira substituir
+                    delete existingTask.title;
+                    delete existingTask.desc;
+                    delete existingTask.dateCreatedTask;
+                    delete existingTask.id;
+                    delete existingTask.position;
+                    delete existingTask.container;
+                    console.log('excluido' + ArrayTaskLS);
+                    
+                } else {
+                    parentCard.remove();
+                    console.log('nao estava salvo portanto apenas removido do html' + ArrayTaskLS);
+                }
+              }    
+        }
+
+    });// atribunduindo a funcao no click
+}
+
+function setupSaveButtons () {
 
     document.querySelector('.menu-cards').addEventListener('click', function (e) { // atribunduindo a funcao no click
         let saveButton = e.target.closest('#save-card');
@@ -159,6 +212,7 @@ function setupSaveButtuns () {
                 }
             }
             ObjTask['id'] = parentCard.id; // salva o id da task especifica selecionada.
+            console.log('salvo: '+ArrayTaskLS);
             function isSaved(task) { // funcao que retorna uma comparacao entre o id da task com o id do card selecionado
                 // isso e para que a funcao nativa find funcione do jeito que eu quero.
                 return task.id === parentCard.id; 
@@ -171,12 +225,14 @@ function setupSaveButtuns () {
                 existingTask.dateCreatedTask = ObjTask.dateCreatedTask;
                 existingTask.container = ObjTask.container;
                 console.log('editado')
+                console.log('editado: '+ArrayTaskLS);
                 
             } else {
                 // se nao existir ira salvar
                 console.log('Não encontrado no array');
                 ArrayTaskLS.push(ObjTask);
                 console.log('Agora foi salvo');
+                console.log('salvo: '+ArrayTaskLS);
             }
             ObjTask['position'] = parentCard.getAttribute('container');
             localStorage.setItem('taskLS', JSON.stringify(ArrayTaskLS)); 
