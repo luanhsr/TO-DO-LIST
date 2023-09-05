@@ -5,10 +5,17 @@ setupDeleteButtons ();
 if (localStorage.taskLS != null) {
     ArrayTaskLS = JSON.parse(localStorage.getItem('taskLS'));
 } 
-setupEditButtons ();
+function getDate () {
+    data = new Date()
+    let hourCreate = data.toLocaleTimeString();
+    let dateCreate = data.toLocaleDateString();
+    let dateAndHour = ` criada em: ${dateCreate} ${hourCreate}`
+    return dateAndHour;
+}
 const taskCreatedContainer = document.getElementById("task-created"); 
 const newCardButton = document.querySelector("#new-card-btn");
 function newTask() {
+        let dateAndHour = getDate();
         let idRandon = Math.random();
 
         // Criar o elemento div para o card
@@ -17,7 +24,7 @@ function newTask() {
         createCard.setAttribute('class', 'card');
         createCard.setAttribute('draggable', 'true');
         createCard.setAttribute('ondragstart', 'drag(event)');
-        createCard.setAttribute('container', 'task-created')
+        createCard.setAttribute('container', 'task-created');
     
         // Criar a estrutura do card
         // INICIO header do card -----------------------------------------------------
@@ -89,7 +96,7 @@ function newTask() {
         
         let createSpanCardDate = document.createElement('span');
         createSpanCardDate.setAttribute('class' , 'date-created-task');
-        createSpanCardDate.innerHTML = 'data aleatoria 16/08/2023'
+        createSpanCardDate.innerHTML = dateAndHour;
 
         // inserindo todos os elementos criados, montando o corpo do cartão.
         taskCreatedContainer.appendChild(createCard);   
