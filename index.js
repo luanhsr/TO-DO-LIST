@@ -1,6 +1,7 @@
 setupEditButtons (); 
 setupSaveButtons();
 setupDeleteButtons ();
+setupOpenMenu ();
 
 if (localStorage.taskLS != null) {
     ArrayTaskLS = JSON.parse(localStorage.getItem('taskLS'));
@@ -67,20 +68,6 @@ function newTask() {
 
          // FINAL  icone  Salvar google span do card -------------------------------------------
 
-         
-        // INICIO Botão editar do card -------------------------------------------
-        let createDeletCardButton = document.createElement('button');
-        createDeletCardButton.setAttribute('id', 'delete-card');
-        createDeletCardButton.setAttribute('class', 'delete-card');
-        // FINAL botão editar do card ------------------------------------------------
-
-        // INICIO icone google span do card -------------------------------------------
-        let createSpanDelete = document.createElement('span');
-        createSpanDelete.setAttribute('class', 'material-symbols-outlined');
-        createSpanDelete.textContent = 'delete';
-        
-        // FINAL  icone google span do card -------------------------------------------
-
         // INICIO corpo do card -----------------------------------------------
         let createCardBody = document.createElement('div');
         createCardBody.setAttribute('class' , 'body-card');
@@ -93,26 +80,79 @@ function newTask() {
         // FIM descrição do card ---------------------------------------------------
 
         // INICIO data criação do card ---------------------------------------------------------
-        
+    
         let createSpanCardDate = document.createElement('span');
         createSpanCardDate.setAttribute('class' , 'date-created-task');
         createSpanCardDate.innerHTML = dateAndHour;
 
+        // INICIO ABRIR MENU DO CARD...........................................................................        
+        let createSpanMore = document.createElement('span');
+        createSpanMore.setAttribute('class' , 'material-symbols-outlined');
+        createSpanMore.setAttribute('id' , 'more-span');
+        createSpanMore.textContent = 'menu';
+        // cria o span
+        let createDivMore = document.createElement('div');
+        createDivMore.setAttribute('class' , 'more-open');
+        createDivMore.setAttribute('id' , 'more-open');
+        // cria a div
+        let CreateCardButtonTimer = document.createElement('button');
+        CreateCardButtonTimer.setAttribute('id' , 'open-clock'); 
+        CreateCardButtonTimer.setAttribute('class' , 'open-clock'); 
+        // cria o botao o icone do botao de abrir cronometro
+        let br = document.createElement('br');
+        let createSpanTimer = document.createElement('span');
+        createSpanTimer.setAttribute('class', 'material-symbols-outlined');
+        createSpanTimer.textContent = 'timer';
+        // cria o icone do botao de abrir cronometro
+        let createCardButtonDelete = document.createElement('button');
+        createCardButtonDelete.setAttribute('id', 'delete-card');
+        createCardButtonDelete.setAttribute('class', 'delete-card');
+        // cria o botao de deletar
+        let createSpanDelete = document.createElement('span');
+        createSpanDelete.setAttribute('class', 'material-symbols-outlined');
+        createSpanDelete.textContent = 'delete';
+        // cria o icone do botao deletar
+
+        // FINAL ABRIR MENU DO CARD...........................................................................    
+       
+
         // inserindo todos os elementos criados, montando o corpo do cartão.
-        taskCreatedContainer.appendChild(createCard);   
+        taskCreatedContainer.appendChild(createCard);
+        createCard.appendChild(createSpanMore);
+        createSpanMore.appendChild(createDivMore);
+        createDivMore.appendChild(CreateCardButtonTimer);
+        CreateCardButtonTimer.appendChild(createSpanTimer);
+        createDivMore.appendChild(br);
+        createDivMore.appendChild(createCardButtonDelete);
+        createCardButtonDelete.appendChild(createSpanDelete);
+
         createCard.appendChild(createCardHead);
         createCardHead.appendChild(createCardH4);
         createCardHead.appendChild(createCardButtonEdit);
         createCardButtonEdit.appendChild(createSpanI);
         createCardHead.appendChild(createCardButtonSave);
         createCardButtonSave.appendChild(createSpanSave);
+
         createCard.appendChild(createCardBody);
         createCardBody.appendChild(createPCard);
         createCardBody.appendChild(createSpanCardDate); // nao e icone e apenas um span
-        createCardBody.appendChild(createDeletCardButton);
-        createDeletCardButton.appendChild(createSpanDelete);
         createCardButtonSave.style.display = 'none';
         createCardButtonEdit.style.display = 'block';
+        createDivMore.style.display = 'none';
+
+     /* 
+                   <span class="material-symbols-outlined" id="more-span">
+                            menu
+                            <div class="more-open" id="more-open" style="display: none;">
+                                <button id="open-clock" class="open-clock"><span class="material-symbols-outlined"> timer  </span></button>
+                                <br>
+                                <button id="delete-card" class="delete-card"><span class="material-symbols-outlined"> delete  </span></button>
+                            </div>
+                        </span>
+
+        */
+
+
 }
 newCardButton.addEventListener('click', () => {
     newTask();    
@@ -144,8 +184,7 @@ function setupEditButtons () {
             }
         }
 
-    });
-    
+    });   
 }
 
 function setupDeleteButtons () {
@@ -171,11 +210,9 @@ function setupDeleteButtons () {
                     delete existingTask.id;
                     delete existingTask.position;
                     delete existingTask.container;
-                    console.log('excluido' + ArrayTaskLS);
                     
                 } else {
                     parentCard.remove();
-                    console.log('nao estava salvo portanto apenas removido do html' + ArrayTaskLS);
                 }
               }    
         }
@@ -219,7 +256,6 @@ function setupSaveButtons () {
                 }
             }
             ObjTask['id'] = parentCard.id; // salva o id da task especifica selecionada.
-            console.log('salvo: '+ArrayTaskLS);
             function isSaved(task) { // funcao que retorna uma comparacao entre o id da task com o id do card selecionado
                 // isso e para que a funcao nativa find funcione do jeito que eu quero.
                 return task.id === parentCard.id; 
@@ -230,22 +266,32 @@ function setupSaveButtons () {
                 existingTask.title = ObjTask.title;
                 existingTask.desc = ObjTask.desc;
                 existingTask.dateCreatedTask = ObjTask.dateCreatedTask;
-                existingTask.container = ObjTask.container;
-                console.log('editado')
-                console.log('editado: '+ArrayTaskLS);
-                
+                existingTask.container = ObjTask.container;           
             } else {
                 // se nao existir ira salvar
-                console.log('Não encontrado no array');
                 ArrayTaskLS.push(ObjTask);
-                console.log('Agora foi salvo');
-                console.log('salvo: '+ArrayTaskLS);
             }
             ObjTask['position'] = parentCard.getAttribute('container');
             localStorage.setItem('taskLS', JSON.stringify(ArrayTaskLS)); 
         }
     });
     
+}
+function setupOpenMenu () {
+        document.querySelector('.menu-cards').addEventListener('click', function (e) { // atribunduindo a funcao no click
+            let moreOpen = e.target.closest('#more-span');
+            if (moreOpen) {
+                let parentCard = moreOpen.closest('.card');
+                let moreOpenDiv = parentCard.querySelector('.more-open');
+                let visible = moreOpenDiv.getAttribute('style' , 'display');
+                if (visible == 'display: none;') {
+                    moreOpenDiv.style.display = 'block';
+                } else {
+                    moreOpenDiv.style.display = 'none';
+                }
+
+            }
+    });
 }
 
 function allowDrop(event) {

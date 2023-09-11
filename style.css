@@ -90,7 +90,7 @@ header {
 
 
 
-.card #more {
+.card #more-span {
     float: left;
     color:  var(--main-bg2-color);
     border-bottom: 1px solid;
@@ -100,7 +100,7 @@ header {
     
 }
 .card #more-open {
-    background-color: yellow;
+    background-color:  var(--main-bg2-color);
     width: 250px;
     height: 250px;
     position: fixed;
@@ -108,21 +108,20 @@ header {
     color: var(--main-bg2-color);
     border-bottom: 1px solid;
     border-right: 1px solid;
-    border-radius: 2px;
+    border-radius: 3px;
     border-color: var(--color3);
     max-height: 100%;
+    box-shadow: var(--boxShadow);
     overflow-x: auto;
     display: flex;
-    flex-direction: column; /* Altera a d
+    flex-direction: colum   n; 
 }
-
-.card #more-open div {
-    margin: 5px 0; /* Adicione margens entre os elementos para separá-los verticalmente */
-    white-space: nowrap; /* Evitar que os elementos quebrem em várias linhas */
+.card .open-clock {
+    background-color: var(--color2);
+    border: var(--border);
+    border-radius: 5px;
+    box-shadow: var(--boxShadow);
 }
-
-
-
 
 
 
@@ -153,7 +152,7 @@ header {
     max-height: 30px;
     margin-right: 2%;
  }
-.card .delete-card {
+.card .more-open .delete-card {
     color: red;
     background-color: wheat;
     border: var(--border);

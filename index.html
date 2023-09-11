@@ -32,14 +32,12 @@
                 <div id="task-created"class="task-created" ondrop="drop(event)" ondragover="allowDrop(event)"> 
                     <h2>Tarefas Criadas</h2>
                     <div id="card"class="card" draggable="true" ondragstart="drag(event)" container="task-created">
-                        <span class="material-symbols-outlined" id="more">
+                        <span class="material-symbols-outlined" id="more-span">
                             menu
-                            <div class="more-open" id="more-open" style="display:none;">
-                                elementos1
+                            <div class="more-open" id="more-open" style="display: none;">
+                                <button id="open-clock" class="open-clock"><span class="material-symbols-outlined"> timer  </span></button>
                                 <br>
-                                elementos2
-                                <br>
-                                elementos3
+                                <button id="delete-card" class="delete-card"><span class="material-symbols-outlined"> delete  </span></button>
                             </div>
                         </span>
                         <div class="head-card">
@@ -53,7 +51,7 @@
                         <div class="body-card">
                              <p class="desc">Clique no icone de edicao para editar sua tarefa</p>
                         <span class="date-created-task">tarefa padrão, sem data de criação  </span>
-                        <button id="delete-card" class="delete-card"><span class="material-symbols-outlined"> delete  </span></button>
+                       
                         </div>
 
                     </div>
