@@ -2,7 +2,7 @@ setupEditButtons ();
 setupSaveButtons();
 setupDeleteButtons ();
 setupOpenMenu ();
-
+setupOpenClock ()
 if (localStorage.taskLS != null) {
     ArrayTaskLS = JSON.parse(localStorage.getItem('taskLS'));
 } 
@@ -52,19 +52,16 @@ function newTask() {
         createSpanI.textContent = 'edit';
         
         // FINAL  icone google span do card -------------------------------------------
-
         // INICIO Botão Salvar do card -------------------------------------------
+        let createCardButtonSave = document.createElement('button');
+        createCardButtonSave.setAttribute('id', 'save-card');
+        createCardButtonSave.setAttribute('class', 'save-card');
+        // FINAL botão Salvar do card ------------------------------------------------
 
-
-            let createCardButtonSave = document.createElement('button');
-            createCardButtonSave.setAttribute('id', 'save-card');
-            createCardButtonSave.setAttribute('class', 'save-card');
-            // FINAL botão Salvar do card ------------------------------------------------
-
-            // INICIO icone Salvar google span do card -------------------------------------------
-            let createSpanSave = document.createElement('span');
-            createSpanSave.setAttribute('class', 'material-symbols-outlined');
-            createSpanSave.textContent = 'save';
+        // INICIO icone Salvar google span do card -------------------------------------------
+        let createSpanSave = document.createElement('span');
+        createSpanSave.setAttribute('class', 'material-symbols-outlined');
+        createSpanSave.textContent = 'save';
 
          // FINAL  icone  Salvar google span do card -------------------------------------------
 
@@ -78,6 +75,30 @@ function newTask() {
         createPCard.setAttribute('class' , 'desc');
         createPCard.innerHTML = 'Clique no botão de editar para inserir a descrição da sua tarefa aqui';
         // FIM descrição do card ---------------------------------------------------
+
+        // Criação da div clock-container
+        let clockContainer = document.createElement('div');
+        clockContainer.setAttribute('class', 'clock-container');
+        clockContainer.setAttribute('id', 'clock-container');
+        
+        // Adição do conteúdo dentro da div clock-container
+        clockContainer.innerHTML = `
+            <p class="title-clock" id="title-clock"><b>Cronometro</b></p>
+            <div class="display-clock" id="display-clock">
+                <span class="minutos">00</span>:
+                <span class="segundos">00</span>:
+                <span class="milissegundos">00</span>
+            </div>
+            <div class="clock-control" id="clock-control">
+                <span class="material-symbols-outlined" id="play-clock">play_circle</span>
+                <span class="material-symbols-outlined" id="pause-clock">pause_circle</span>
+                <span class="material-symbols-outlined" id="stop_clock">stop_circle</span>
+            </div>
+        `;
+        clockContainer.style.display = 'none'
+
+    // Adiciona a div clock-container ao corpo do cartão
+        createCardBody.appendChild(clockContainer);
 
         // INICIO data criação do card ---------------------------------------------------------
     
@@ -140,19 +161,6 @@ function newTask() {
         createCardButtonEdit.style.display = 'block';
         createDivMore.style.display = 'none';
 
-     /* 
-                   <span class="material-symbols-outlined" id="more-span">
-                            menu
-                            <div class="more-open" id="more-open" style="display: none;">
-                                <button id="open-clock" class="open-clock"><span class="material-symbols-outlined"> timer  </span></button>
-                                <br>
-                                <button id="delete-card" class="delete-card"><span class="material-symbols-outlined"> delete  </span></button>
-                            </div>
-                        </span>
-
-        */
-
-
 }
 newCardButton.addEventListener('click', () => {
     newTask();    
@@ -163,6 +171,7 @@ function setupEditButtons () {
     document.querySelector('.menu-cards').addEventListener('click', function (e) { // atribunduindo a funcao no click
         let editButton = e.target.closest('#edit-card');
         if (editButton && editButton.style.display == 'block') {
+            console.log('a funcao')
             let parentCard = editButton.closest('.card');
             if (parentCard) {
                 let displayVal = editButton.style.display;
@@ -186,6 +195,7 @@ function setupEditButtons () {
 
     });   
 }
+
 
 function setupDeleteButtons () {
     document.querySelector('.menu-cards').addEventListener('click', function (e) { 
@@ -294,6 +304,25 @@ function setupOpenMenu () {
     });
 }
 
+
+function setupOpenClock () {
+    document.querySelector('.menu-cards').addEventListener('click', function (e) { 
+        let openClockBtn = e.target.closest('#open-clock');
+        if (openClockBtn) {
+            console.log(openClockBtn);
+            let parentCard = openClockBtn.closest('.card');
+            let containerClock = parentCard.querySelector('.clock-container');
+            let visible = containerClock.getAttribute('style' , 'display');
+            if (visible == 'display: none;') {
+                containerClock.style.display = 'block';
+            } else {
+                containerClock.style.display = 'none';
+            }
+
+        }
+
+    });
+}
 function allowDrop(event) {
     event.preventDefault();
 

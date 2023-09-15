@@ -46,14 +46,38 @@
                             <h4 class="title"> Primeira tarefa</h4>
                             <button id="save-card" class="save-card" style="display:none;"><span class="material-symbols-outlined" > save  </span></button>
                             <button id="edit-card" class="edit-card" style="display:block;"><span class="material-symbols-outlined"> edit  </span></button>
+
                         </div>
 
-                        <div class="body-card">
+                        <div class="body-card" id="body-card">
                              <p class="desc">Clique no icone de edicao para editar sua tarefa</p>
-                        <span class="date-created-task">tarefa padrão, sem data de criação  </span>
-                       
-                        </div>
+                            <div class="clock-container" id="clock-container" style="display: none;">
+                                <p class="title-clock" id="title-clock"> <b> Cronometro</b></p>
+                                <div class="display-clock" id="display-clock">
+                                    <span class="minutos">00</span>:<span class="segundos">00</span>:<span class="milissegundos">00</span>
+                                </div>
+                                <div class="clock-control" id="clock-control">
+                                    <span class="material-symbols-outlined"  id="play-clock">
+                                        play_circle
+                                    </span>
+                                    <span class="material-symbols-outlined" id="pause-clock">
+                                        pause_circle
+                                    </span>
+                                    <span class="material-symbols-outlined" id="stop_clock">
+                                        stop_circle
+                                    </span>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="end-card" id="end-card">
+                                <span class="date-created-task">tarefa padrão, sem data de criação  </span>
+                                <br>
+                                <button class="move-card-create" id="move-card-create">task created</button>
+                                <button class="move-card-doing" id="move-card-doing">task-doing</button>
+                                <button class="move-card-completed" id="move-card-completed">task-completed</button>
 
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="task-doing" class="task-doing" ondrop="drop(event)" ondragover="allowDrop(event)"> 

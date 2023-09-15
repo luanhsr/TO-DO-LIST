@@ -73,23 +73,6 @@ header {
 .task-created, .task-completed, .task-doing  {
     background-color: var(--main-bg2-color);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .card #more-span {
     float: left;
     color:  var(--main-bg2-color);
@@ -122,6 +105,48 @@ header {
     border-radius: 5px;
     box-shadow: var(--boxShadow);
 }
+
+#clock-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+}
+.body-card {
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+#clock-container #title-clock {
+    color: black;
+    margin-bottom: 5px;
+}
+#clock-container #display-clock {
+    color: #0e1d20;
+    background-color: rgba(0, 0, 0, 0.514);
+    margin-bottom: 5px;
+    font-size: 18px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+#clock-container #clock-control {
+    color: black;
+}
+#clock-container #clock-control {
+    color: black;
+}
+#clock-container #clock-control #stop_clock{
+    color: rgb(255, 30, 0);
+}
+
+
+
+
 
 
 
