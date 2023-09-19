@@ -17,6 +17,7 @@ function getDate () {
 const taskCreatedContainer = document.getElementById("task-created"); 
 const newCardButton = document.querySelector("#new-card-btn");
 function newTask() {
+        let taskCreated = document.getElementById('task-created');
         let dateAndHour = getDate();
         let idRandon = Math.random();
 
@@ -27,140 +28,60 @@ function newTask() {
         createCard.setAttribute('draggable', 'true');
         createCard.setAttribute('ondragstart', 'drag(event)');
         createCard.setAttribute('container', 'task-created');
-    
-        // Criar a estrutura do card
-        // INICIO header do card -----------------------------------------------------
-        let createCardHead = document.createElement('div');
-        createCardHead.setAttribute('class', 'head-card');
-        // FIM header do card ----------------------------------------------------------
-        
-        // INICIO titulo do card --------------------------------------------------------
-        let createCardH4 = document.createElement('h4');
-        createCardH4.setAttribute('class' , 'title');
-        createCardH4.innerHTML = 'Insira o nome da tarefa clicando no ícone de editar';
-        
-        // FINAL  titulo do car------------------------------------------------------
-
-        // INICIO Botão editar do card -------------------------------------------
-        let createCardButtonEdit = document.createElement('button');
-        createCardButtonEdit.setAttribute('id', 'edit-card');
-        createCardButtonEdit.setAttribute('class', 'edit-card');
-        // FINAL botão editar do card ------------------------------------------------
-
-        // INICIO icone google span do card -------------------------------------------
-        let createSpanI = document.createElement('span');
-        createSpanI.setAttribute('class', 'material-symbols-outlined');
-        createSpanI.textContent = 'edit';
-        
-        // FINAL  icone google span do card -------------------------------------------
-        // INICIO Botão Salvar do card -------------------------------------------
-        let createCardButtonSave = document.createElement('button');
-        createCardButtonSave.setAttribute('id', 'save-card');
-        createCardButtonSave.setAttribute('class', 'save-card');
-        // FINAL botão Salvar do card ------------------------------------------------
-
-        // INICIO icone Salvar google span do card -------------------------------------------
-        let createSpanSave = document.createElement('span');
-        createSpanSave.setAttribute('class', 'material-symbols-outlined');
-        createSpanSave.textContent = 'save';
-
-         // FINAL  icone  Salvar google span do card -------------------------------------------
-
-        // INICIO corpo do card -----------------------------------------------
-        let createCardBody = document.createElement('div');
-        createCardBody.setAttribute('class' , 'body-card');
-        // Final corpo do card -----------------------------------------------
-
-        // INICIO descrição do card -----------------------------------------------
-        let createPCard = document.createElement('p');
-        createPCard.setAttribute('class' , 'desc');
-        createPCard.innerHTML = 'Clique no botão de editar para inserir a descrição da sua tarefa aqui';
-        // FIM descrição do card ---------------------------------------------------
-
-        // Criação da div clock-container
-        let clockContainer = document.createElement('div');
-        clockContainer.setAttribute('class', 'clock-container');
-        clockContainer.setAttribute('id', 'clock-container');
-        
-        // Adição do conteúdo dentro da div clock-container
-        clockContainer.innerHTML = `
-            <p class="title-clock" id="title-clock"><b>Cronometro</b></p>
-            <div class="display-clock" id="display-clock">
-                <span class="minutos">00</span>:
-                <span class="segundos">00</span>:
-                <span class="milissegundos">00</span>
+        createCard.innerHTML = `
+        <span class="material-symbols-outlined" id="more-span">
+            menu
+            <div class="more-open" id="more-open" style="display: none;">
+                <button id="open-clock" class="open-clock"><span class="material-symbols-outlined"> timer  </span></button>
+                <br>
+                <button id="delete-card" class="delete-card"><span class="material-symbols-outlined"> delete  </span></button>
             </div>
-            <div class="clock-control" id="clock-control">
-                <span class="material-symbols-outlined" id="play-clock">play_circle</span>
-                <span class="material-symbols-outlined" id="pause-clock">pause_circle</span>
-                <span class="material-symbols-outlined" id="stop_clock">stop_circle</span>
+        </span>
+        <div class="head-card">
+                
+            </span>
+            <h4 class="title"> Primeira tarefa</h4>
+            <button id="save-card" class="save-card" style="display:none;"><span class="material-symbols-outlined" > save  </span></button>
+            <button id="edit-card" class="edit-card" style="display:block;"><span class="material-symbols-outlined"> edit  </span></button>
+
+        </div>
+
+        <div class="body-card" id="body-card">
+             <p class="desc">Clique no icone de edicao para editar sua tarefa</p>
+            <div class="clock-container" id="clock-container" style="display: none;">
+                <p class="title-clock" id="title-clock"> <b> Cronometro</b></p>
+                <div class="display-clock" id="display-clock">
+                    <span class="minutos">00</span>:<span class="segundos">00</span>:<span class="milissegundos">00</span>
+                </div>
+                <div class="clock-control" id="clock-control">
+                    <span class="material-symbols-outlined"  id="play-clock">
+                        play_circle
+                    </span>
+                    <span class="material-symbols-outlined" id="pause-clock">
+                        pause_circle
+                    </span>
+                    <span class="material-symbols-outlined" id="stop_clock">
+                        stop_circle
+                    </span>
+                </div>
             </div>
-        `;
-        clockContainer.style.display = 'none'
+            <br>
+            <span class="date-created-task">${dateAndHour}  </span>
+            <div class="container-move-card" id="container-move-card">
+                <button class="move-card-left" id="move-card-left"  style="visibility: hidden" style="display: block;"><span class="material-symbols-outlined">
+                    arrow_back
+                    </span></button>
 
-    // Adiciona a div clock-container ao corpo do cartão
-        createCardBody.appendChild(clockContainer);
-
-        // INICIO data criação do card ---------------------------------------------------------
-    
-        let createSpanCardDate = document.createElement('span');
-        createSpanCardDate.setAttribute('class' , 'date-created-task');
-        createSpanCardDate.innerHTML = dateAndHour;
-
-        // INICIO ABRIR MENU DO CARD...........................................................................        
-        let createSpanMore = document.createElement('span');
-        createSpanMore.setAttribute('class' , 'material-symbols-outlined');
-        createSpanMore.setAttribute('id' , 'more-span');
-        createSpanMore.textContent = 'menu';
-        // cria o span
-        let createDivMore = document.createElement('div');
-        createDivMore.setAttribute('class' , 'more-open');
-        createDivMore.setAttribute('id' , 'more-open');
-        // cria a div
-        let CreateCardButtonTimer = document.createElement('button');
-        CreateCardButtonTimer.setAttribute('id' , 'open-clock'); 
-        CreateCardButtonTimer.setAttribute('class' , 'open-clock'); 
-        // cria o botao o icone do botao de abrir cronometro
-        let br = document.createElement('br');
-        let createSpanTimer = document.createElement('span');
-        createSpanTimer.setAttribute('class', 'material-symbols-outlined');
-        createSpanTimer.textContent = 'timer';
-        // cria o icone do botao de abrir cronometro
-        let createCardButtonDelete = document.createElement('button');
-        createCardButtonDelete.setAttribute('id', 'delete-card');
-        createCardButtonDelete.setAttribute('class', 'delete-card');
-        // cria o botao de deletar
-        let createSpanDelete = document.createElement('span');
-        createSpanDelete.setAttribute('class', 'material-symbols-outlined');
-        createSpanDelete.textContent = 'delete';
-        // cria o icone do botao deletar
-
-        // FINAL ABRIR MENU DO CARD...........................................................................    
-       
-
-        // inserindo todos os elementos criados, montando o corpo do cartão.
-        taskCreatedContainer.appendChild(createCard);
-        createCard.appendChild(createSpanMore);
-        createSpanMore.appendChild(createDivMore);
-        createDivMore.appendChild(CreateCardButtonTimer);
-        CreateCardButtonTimer.appendChild(createSpanTimer);
-        createDivMore.appendChild(br);
-        createDivMore.appendChild(createCardButtonDelete);
-        createCardButtonDelete.appendChild(createSpanDelete);
-
-        createCard.appendChild(createCardHead);
-        createCardHead.appendChild(createCardH4);
-        createCardHead.appendChild(createCardButtonEdit);
-        createCardButtonEdit.appendChild(createSpanI);
-        createCardHead.appendChild(createCardButtonSave);
-        createCardButtonSave.appendChild(createSpanSave);
-
-        createCard.appendChild(createCardBody);
-        createCardBody.appendChild(createPCard);
-        createCardBody.appendChild(createSpanCardDate); // nao e icone e apenas um span
-        createCardButtonSave.style.display = 'none';
-        createCardButtonEdit.style.display = 'block';
-        createDivMore.style.display = 'none';
+                <button class="move-card-completed" id="move-card-completed" style="display: none;"  style="visibility: hidden"><span class="material-symbols-outlined">
+                    done
+                    </span></button>
+                 
+                <button class="move-card-right" id="move-card-right"  style="visibility: visible;" style="display: block;"><span class="material-symbols-outlined">
+                        arrow_forward
+                </span></button>
+            </div>
+        </div>`
+        taskCreated.appendChild(createCard);
 
 }
 newCardButton.addEventListener('click', () => {
