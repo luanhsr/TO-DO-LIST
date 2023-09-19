@@ -69,7 +69,12 @@ header {
     text-align: center;
     margin: 0 10px;
 }
+.card button{
+    background-color: var(--color2);
+    border:  2px ridge;
+    border-radius: 8px;
 
+}
 .task-created, .task-completed, .task-doing  {
     background-color: var(--main-bg2-color);
 }
@@ -143,18 +148,6 @@ header {
 #clock-container #clock-control #stop_clock{
     color: rgb(255, 30, 0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 .card .head-card {
     margin-top: 2px;
     margin-bottom: 5px;
@@ -170,7 +163,7 @@ header {
 }
 .card .edit-card , .save-card{
     color: var(--main-bg2-color);
-    background-color: wheat;
+    background-color: var(--color2);
     border: var(--border);
     border-radius: 8px;
     margin-bottom: 3px;
@@ -179,8 +172,8 @@ header {
  }
 .card .more-open .delete-card {
     color: red;
-    background-color: wheat;
-    border: var(--border);
+    background-color: var(--main-bg2-color);
+    border: 1px outset red;
     border-color: red;
     border-radius: 5px;
     max-height: 30px;
@@ -205,8 +198,6 @@ header {
     margin-left: 8%;
     margin-bottom: 10px;
 }
-
-
 .card .desc {
     font-size: 14px;
     margin-top: 5px;
@@ -215,5 +206,9 @@ header {
 .card .date-created-task{
     font-size: 10px;
 }
-
+.card .container-move-card {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
 

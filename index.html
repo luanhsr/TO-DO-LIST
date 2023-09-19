@@ -69,13 +69,19 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="end-card" id="end-card">
-                                <span class="date-created-task">tarefa padrão, sem data de criação  </span>
-                                <br>
-                                <button class="move-card-create" id="move-card-create">task created</button>
-                                <button class="move-card-doing" id="move-card-doing">task-doing</button>
-                                <button class="move-card-completed" id="move-card-completed">task-completed</button>
+                            <span class="date-created-task">tarefa padrão, sem data de criação  </span>
+                            <div class="container-move-card" id="container-move-card">
+                                <button class="move-card-left" id="move-card-left"  style="visibility: hidden" style="display: block;"><span class="material-symbols-outlined">
+                                    arrow_back
+                                    </span></button>
 
+                                <button class="move-card-completed" id="move-card-completed" style="display: none;"  style="visibility: hidden"><span class="material-symbols-outlined">
+                                    done
+                                    </span></button>
+                                 
+                                <button class="move-card-right" id="move-card-right"  style="visibility: visible;" style="display: block;"><span class="material-symbols-outlined">
+                                        arrow_forward
+                                </span></button>
                             </div>
                         </div>
                     </div>

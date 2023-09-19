@@ -2,7 +2,8 @@ setupEditButtons ();
 setupSaveButtons();
 setupDeleteButtons ();
 setupOpenMenu ();
-setupOpenClock ()
+setupOpenClock ();
+setupMoveCard ();
 if (localStorage.taskLS != null) {
     ArrayTaskLS = JSON.parse(localStorage.getItem('taskLS'));
 } 
@@ -171,7 +172,6 @@ function setupEditButtons () {
     document.querySelector('.menu-cards').addEventListener('click', function (e) { // atribunduindo a funcao no click
         let editButton = e.target.closest('#edit-card');
         if (editButton && editButton.style.display == 'block') {
-            console.log('a funcao')
             let parentCard = editButton.closest('.card');
             if (parentCard) {
                 let displayVal = editButton.style.display;
@@ -195,8 +195,6 @@ function setupEditButtons () {
 
     });   
 }
-
-
 function setupDeleteButtons () {
     document.querySelector('.menu-cards').addEventListener('click', function (e) { 
         let deletButton = e.target.closest('#delete-card');
@@ -229,7 +227,6 @@ function setupDeleteButtons () {
 
     });// atribunduindo a funcao no click
 }
-
 function setupSaveButtons () {
 
     document.querySelector('.menu-cards').addEventListener('click', function (e) { // atribunduindo a funcao no click
@@ -304,12 +301,108 @@ function setupOpenMenu () {
     });
 }
 
+function setupMoveCard () {
+    let taskDoing = document.getElementById('task-doing');
+    let taskCreated = document.getElementById('task-created');
+    let taskCompleted = document.getElementById('task-completed');
+    
+    document.querySelector('.menu-cards').addEventListener('click', function (e) { // atribunduindo a funcao no click
+        let mvCardR = e.target.closest('#move-card-right'); 
+        let mvCardL = e.target.closest('#move-card-left'); 
+        let mvCardCl = e.target.closest('#move-card-completed'); 
+        if (mvCardR) {
+            let parentCard = mvCardR.closest('.card');
+            let currentLocation = parentCard.parentElement.id;
+            if (currentLocation==="task-created") {   
+                taskDoing.appendChild(parentCard);
+                let editableElements = parentCard.querySelectorAll('button');
+                editableElements.forEach(element=> {
+                    if (element.id === 'move-card-right') {
+                        element.style.display = 'none'
+                        element.style.visibility = 'hidden'
+                    }
+                    if (element.id==='move-card-completed') {
+                        element.style.display = 'block'
+                        element.style.visibility = 'visible'
+                    }
+                    if (element.id==='move-card-left') {
+                        element.style.display = 'block';
+                        element.style.visibility = 'visible';
+                    }
+                });
+            }
+        }
+        if (mvCardCl) {
+            let parentCard = mvCardCl.closest('.card');
+            let currentLocation = parentCard.parentElement.id;
+            if (currentLocation==="task-doing") {   
+                taskCompleted.appendChild(parentCard);
+                let editableElements = parentCard.querySelectorAll('button');
+                editableElements.forEach(element=> {
+                    if (element.id === 'move-card-right') {
+                        element.style.display = 'none'
+                        element.style.visibility = 'hidden'
+                    }
+                    if (element.id==='move-card-completed') {
+                        element.style.display = 'none'
+                        element.style.visibility = 'hidden'
+                    }
+                    if (element.id==='move-card-left') {
+                        element.style.display = 'block';
+                        element.style.visibility = 'invisible';
+                    }
+                });
+            }
+        }
+        if (mvCardL) {
+            let parentCard = mvCardL.closest('.card');
+            let currentLocation = parentCard.parentElement.id;
+            if (currentLocation==="task-completed") {
+                taskDoing.appendChild(parentCard);
+                let editableElements = parentCard.querySelectorAll('button');
+                editableElements.forEach(element=> {
+                    if (element.id === 'move-card-right') {
+                        element.style.display = 'none'
+                        element.style.visibility = 'hidden'
+                    }
+                    if (element.id==='move-card-completed') {
+                        element.style.display = 'block'
+                        element.style.visibility = 'visible'
+                    }
+                    if (element.id==='move-card-left') {
+                        element.style.display = 'block';
+                        element.style.visibility = 'visible';
+                    }
+                });
+            }
+            if (currentLocation==="task-doing") {
+                taskCreated.appendChild(parentCard);
+                let editableElements = parentCard.querySelectorAll('button');
+                editableElements.forEach(element=> {
+                    if (element.id === 'move-card-right') {
+                        element.style.display = 'block'
+                        element.style.visibility = 'visible'
+                    }
+                    if (element.id==='move-card-completed') {
+                        element.style.display = 'none'
+                        element.style.visibility = 'hidden'
+                    }
+                    if (element.id==='move-card-left') {
+                        element.style.display = 'block';
+                        element.style.visibility = 'hidden';
+                    }
+                });
+            }
+            
+        }
+
+    });    
+}
 
 function setupOpenClock () {
     document.querySelector('.menu-cards').addEventListener('click', function (e) { 
         let openClockBtn = e.target.closest('#open-clock');
         if (openClockBtn) {
-            console.log(openClockBtn);
             let parentCard = openClockBtn.closest('.card');
             let containerClock = parentCard.querySelector('.clock-container');
             let visible = containerClock.getAttribute('style' , 'display');
@@ -318,17 +411,12 @@ function setupOpenClock () {
             } else {
                 containerClock.style.display = 'none';
             }
-
         }
-
     });
 }
 function allowDrop(event) {
     event.preventDefault();
-
-
 }
-
 function drag(event) {
     event.dataTransfer.setData('text', event.target.id); // função ativada ao clicar e segurar o elemento, ele pode ser arrastado
 }
@@ -341,13 +429,59 @@ function drop(event) { // função ativa ao soltar o elemento.
     // os ifs realiza cada comportamento conforme o cartão é solto em containers diferentes: 
     if (targetContainer.id === "task-created") { 
         draggedElement.setAttribute('container', targetContainer.id);
-        // nunca usar atributos css para programar.
+        let editableElements = draggedElement.querySelectorAll('button');
+            editableElements.forEach(element=> {
+                if (element.id === 'move-card-right') {
+                        element.style.display = 'block'
+                        element.style.visibility = 'visible'
+                }
+                if (element.id==='move-card-completed') {
+                        element.style.display = 'none'
+                        element.style.visibility = 'hidden'
+                }
+                if (element.id==='move-card-left') {
+                        element.style.display = 'block';
+                        element.style.visibility = 'hidden';
+                }
+        });
 
+        // nunca usar atributos css para programar.
     }if (targetContainer.id === "task-doing") {
         draggedElement.setAttribute('container', targetContainer.id);
+        let editableElements = draggedElement.querySelectorAll('button');
+        editableElements.forEach(element=> {
+            if (element.id === 'move-card-right') {
+                    element.style.display = 'none'
+                    element.style.visibility = 'hidden'
+            }
+            if (element.id==='move-card-completed') {
+                    element.style.display = 'block'
+                    element.style.visibility = 'visible'
+            }
+            if (element.id==='move-card-left') {
+                    element.style.display = 'block';
+                    element.style.visibility = 'visible';
+            }
+        });
+        
         
     }if (targetContainer.id === "task-completed" ) {
         draggedElement.setAttribute('container', targetContainer.id);
+        let editableElements = draggedElement.querySelectorAll('button');
+        editableElements.forEach(element=> {
+            if (element.id === 'move-card-right') {
+                    element.style.display = 'none'
+                    element.style.visibility = 'hidden'
+            }
+            if (element.id==='move-card-completed') {
+                    element.style.display = 'block'
+                    element.style.visibility = 'visible'
+            }
+            if (element.id==='move-card-left') {
+                    element.style.display = 'block';
+                    element.style.visibility = 'visible';
+            }
+        });
     }
 }
 // fim drag drop dos cartõe
