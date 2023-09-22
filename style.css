@@ -145,7 +145,7 @@ header {
 #clock-container #clock-control {
     color: black;
 }
-#clock-container #clock-control #stop_clock{
+#clock-container #clock-control #stop-clock{
     color: rgb(255, 30, 0);
 }
 .card .head-card {

@@ -4,6 +4,7 @@ setupDeleteButtons ();
 setupOpenMenu ();
 setupOpenClock ();
 setupMoveCard ();
+setupClock ();
 if (localStorage.taskLS != null) {
     ArrayTaskLS = JSON.parse(localStorage.getItem('taskLS'));
 } 
@@ -16,6 +17,7 @@ function getDate () {
 }
 const taskCreatedContainer = document.getElementById("task-created"); 
 const newCardButton = document.querySelector("#new-card-btn");
+let clockWorkers = {};
 function newTask() {
         let taskCreated = document.getElementById('task-created');
         let dateAndHour = getDate();
@@ -51,18 +53,18 @@ function newTask() {
             <div class="clock-container" id="clock-container" style="display: none;">
                 <p class="title-clock" id="title-clock"> <b> Cronometro</b></p>
                 <div class="display-clock" id="display-clock">
-                    <span class="minutos">00</span>:<span class="segundos">00</span>:<span class="milissegundos">00</span>
+                    <span class="min" id="min">00</span>:<span class="sec" id="sec">00</span>
                 </div>
                 <div class="clock-control" id="clock-control">
-                    <span class="material-symbols-outlined"  id="play-clock">
-                        play_circle
-                    </span>
-                    <span class="material-symbols-outlined" id="pause-clock">
-                        pause_circle
-                    </span>
-                    <span class="material-symbols-outlined" id="stop_clock">
-                        stop_circle
-                    </span>
+                <span class="material-symbols-outlined"  id="play-clock" class="play-clock">
+                play_circle
+                </span>
+                <span class="material-symbols-outlined" id="pause-clock" class="pause-clock" >
+                    pause_circle
+                </span>
+                <span class="material-symbols-outlined" id="stop-clock" class="stop-clock">
+                    stop_circle
+                </span>
                 </div>
             </div>
             <br>
@@ -81,7 +83,12 @@ function newTask() {
                 </span></button>
             </div>
         </div>`
+        let clockWorker = new Worker('clockWorker.js');
+        let clockContainer = createCard.querySelector('#clock-container');
+        setupClock();
+        clockWorkers[createCard.id] = clockWorker;
         taskCreated.appendChild(createCard);
+
 
 }
 newCardButton.addEventListener('click', () => {
@@ -115,38 +122,6 @@ function setupEditButtons () {
         }
 
     });   
-}
-function setupDeleteButtons () {
-    document.querySelector('.menu-cards').addEventListener('click', function (e) { 
-        let deletButton = e.target.closest('#delete-card');
-        if (deletButton) {
-            let parentCard = deletButton.closest('.card');
-            var r=confirm("Deseja excluir a nota?");
-            if (r==true)
-              { 
-                parentCard.remove();
-                
-                function isSaved(task) { // funcao que retorna uma comparacao entre o id da task com o id do card selecionado
-                    // isso e para que a funcao nativa find funcione do jeito que eu quero.
-                    return task.id === parentCard.id; 
-                }
-                let existingTask = ArrayTaskLS.find(isSaved); // uma variavel que ira receber se existe uma task no array ja salva com o id selecionado
-                if (existingTask) {
-                    // se existir, ira substituir
-                    delete existingTask.title;
-                    delete existingTask.desc;
-                    delete existingTask.dateCreatedTask;
-                    delete existingTask.id;
-                    delete existingTask.position;
-                    delete existingTask.container;
-                    
-                } else {
-                    parentCard.remove();
-                }
-              }    
-        }
-
-    });// atribunduindo a funcao no click
 }
 function setupSaveButtons () {
 
@@ -221,6 +196,82 @@ function setupOpenMenu () {
             }
     });
 }
+function setupDeleteButtons () {
+    document.querySelector('.menu-cards').addEventListener('click', function (e) { 
+        let deletButton = e.target.closest('#delete-card');
+        if (deletButton) {
+            let parentCard = deletButton.closest('.card');
+            var r=confirm("Deseja excluir a nota?");
+            if (r==true)
+              { 
+                parentCard.remove();
+                
+                function isSaved(task) { // funcao que retorna uma comparacao entre o id da task com o id do card selecionado
+                    // isso e para que a funcao nativa find funcione do jeito que eu quero.
+                    return task.id === parentCard.id; 
+                }
+                let existingTask = ArrayTaskLS.find(isSaved); // uma variavel que ira receber se existe uma task no array ja salva com o id selecionado
+                if (existingTask) {
+                    // se existir, ira substituir
+                    delete existingTask.title;
+                    delete existingTask.desc;
+                    delete existingTask.dateCreatedTask;
+                    delete existingTask.id;
+                    delete existingTask.position;
+                    delete existingTask.container;
+                    
+                } else {
+                    parentCard.remove();
+                }
+              }    
+        }
+
+    });// atribunduindo a funcao no click
+}
+function setupClock() {
+    document.querySelector('.menu-cards').addEventListener('click', function (e) {
+        let clockContainer = e.target.closest('#clock-container');
+
+        if (clockContainer) {
+            let parentCard = clockContainer.closest('.card');
+            let cardId = parentCard.id;
+
+            if (!clockWorkers[cardId]) {
+                clockWorkers[cardId] = new Worker('clockWorker.js');
+            }
+
+            let playClock = e.target.closest('#play-clock');
+            let pauseClock = e.target.closest('#pause-clock');
+            let stopClock = e.target.closest('#stop-clock');
+
+            if (playClock) {
+                clockWorkers[cardId].postMessage({ action: 'iniciar' });
+            }
+
+            if (pauseClock) {
+                clockWorkers[cardId].postMessage({ action: 'parar' });
+            }
+
+            if (stopClock) {
+                clockWorkers[cardId].postMessage({ action: 'reset' });
+            }
+            function getControlsHTML(clockContainer) {
+                const min = clockContainer.querySelector('.min');
+                const sec = clockContainer.querySelector('.sec');
+                return { min, sec };
+            }
+
+            clockWorkers[cardId].onmessage = function (event) {
+                let { min, sec } = event.data;
+                let { min: minInnerHtml, sec: secInnerHtml } = getControlsHTML(clockContainer);
+                if (minInnerHtml && secInnerHtml) {
+                    minInnerHtml.textContent = min < 10 ? `0${min}` : min;
+                    secInnerHtml.textContent = sec < 10 ? `0${sec}` : sec;
+                }
+            };
+        }
+    });
+}
 
 function setupMoveCard () {
     let taskDoing = document.getElementById('task-doing');
@@ -239,12 +290,12 @@ function setupMoveCard () {
                 let editableElements = parentCard.querySelectorAll('button');
                 editableElements.forEach(element=> {
                     if (element.id === 'move-card-right') {
-                        element.style.display = 'none'
-                        element.style.visibility = 'hidden'
+                        element.style.display = 'none';
+                        element.style.visibility = 'hidden';
                     }
                     if (element.id==='move-card-completed') {
-                        element.style.display = 'block'
-                        element.style.visibility = 'visible'
+                        element.style.display = 'block';
+                        element.style.visibility = 'visible';
                     }
                     if (element.id==='move-card-left') {
                         element.style.display = 'block';
@@ -261,12 +312,12 @@ function setupMoveCard () {
                 let editableElements = parentCard.querySelectorAll('button');
                 editableElements.forEach(element=> {
                     if (element.id === 'move-card-right') {
-                        element.style.display = 'none'
-                        element.style.visibility = 'hidden'
+                        element.style.display = 'none';
+                        element.style.visibility = 'hidden';
                     }
                     if (element.id==='move-card-completed') {
-                        element.style.display = 'none'
-                        element.style.visibility = 'hidden'
+                        element.style.display = 'none';
+                        element.style.visibility = 'hidden';
                     }
                     if (element.id==='move-card-left') {
                         element.style.display = 'block';
@@ -283,12 +334,12 @@ function setupMoveCard () {
                 let editableElements = parentCard.querySelectorAll('button');
                 editableElements.forEach(element=> {
                     if (element.id === 'move-card-right') {
-                        element.style.display = 'none'
-                        element.style.visibility = 'hidden'
+                        element.style.display = 'none';
+                        element.style.visibility = 'hidden';
                     }
                     if (element.id==='move-card-completed') {
-                        element.style.display = 'block'
-                        element.style.visibility = 'visible'
+                        element.style.display = 'block';
+                        element.style.visibility = 'visible';
                     }
                     if (element.id==='move-card-left') {
                         element.style.display = 'block';
@@ -301,12 +352,12 @@ function setupMoveCard () {
                 let editableElements = parentCard.querySelectorAll('button');
                 editableElements.forEach(element=> {
                     if (element.id === 'move-card-right') {
-                        element.style.display = 'block'
-                        element.style.visibility = 'visible'
+                        element.style.display = 'block';
+                        element.style.visibility = 'visible';
                     }
                     if (element.id==='move-card-completed') {
-                        element.style.display = 'none'
-                        element.style.visibility = 'hidden'
+                        element.style.display = 'none';
+                        element.style.visibility = 'hidden';
                     }
                     if (element.id==='move-card-left') {
                         element.style.display = 'block';
@@ -319,7 +370,6 @@ function setupMoveCard () {
 
     });    
 }
-
 function setupOpenClock () {
     document.querySelector('.menu-cards').addEventListener('click', function (e) { 
         let openClockBtn = e.target.closest('#open-clock');
