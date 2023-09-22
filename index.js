@@ -51,7 +51,7 @@ function newTask() {
         <div class="body-card" id="body-card">
              <p class="desc">Clique no icone de edicao para editar sua tarefa</p>
             <div class="clock-container" id="clock-container" style="display: none;">
-                <p class="title-clock" id="title-clock"> <b> Cronometro</b></p>
+                <h3 class="title-clock" id="title-clock"> <b> Cronometro</b></h3>
                 <div class="display-clock" id="display-clock">
                     <span class="min" id="min">00</span>:<span class="sec" id="sec">00</span>
                 </div>
