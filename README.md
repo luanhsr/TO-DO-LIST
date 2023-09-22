@@ -7,5 +7,5 @@
 <br>
 <t> </t>
 <p> Inspirado em uma versão simplificada do <b> Trello </b> mas não foi utilizado <b> nem um modelo de código </b> como exemplo ou base </b>
-referência: <a href=“https://trello.com/“>Flex Grid</a>
+referência: <a href=“https://trello.com/“> Clique aqui para abrir o Trello </a>
 
