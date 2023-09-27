@@ -1,10 +1,12 @@
 :root {
-    --main-bg-color:  #183940;
-    --main-bg2-color: #0e1d20;
-    --border: 2px solid #7CA68B;
-    --color2: #C4EEF2;
-    --color3: #7CA68B; ;
+    --main-bg-color:  #041220;
+    --main-bg2-color: #163A59;
+    --border: 2px solid #CEFAFE;
+    --titles1: #CEFAFE;
+    --text1: #B6DCE0;
+    --btn-color: #173859;
     --boxShadow: 5px 5px 5px rgba(124, 166, 139, 0.1);
+    --dangerColor: rgb(255, 30, 0);
 }
 .menu-cards {
     margin-top: 5%;
@@ -28,7 +30,7 @@ header {
 .logo-name {
     font-size: 18px;
     font-weight: bold;
-    color: var(--color2);
+    color: var(--titles1);
 }
 
 .profile {
@@ -37,13 +39,11 @@ header {
     border-radius: 8px;
 }
 
-.card-container{
-    /* */
+.card-container {
+   /* */
     display: flex; /* deixa todos os items lado a lado*/
     justify-content: space-between; /* faz que todos os itens ocupam o mesmo espaco */
-}
-.card-container {
-    color: var(--color2);
+    color: var(--text1);
     flex: 1; /* Cada div vai ocupar uma proporção igual do espaço disponível */
     margin: 0 10px;
     padding: 10px;
@@ -56,7 +56,8 @@ header {
     max-width: 300px;
     max-height: 300px;
     border: var(--border);
-    color: var(--main-bg-color);
+    color: var(--text1);
+    background-color: var(--btn-color);
 }
 .task-created,
 .task-doing,
@@ -70,17 +71,19 @@ header {
     margin: 0 10px;
 }
 .card button{
-    background-color: var(--color2);
-    border:  2px ridge;
+    background-color: var(--btn-color);
+    color: var(--text1);
+    border:  2px ridge var(--text1);
     border-radius: 8px;
 
 }
 .task-created, .task-completed, .task-doing  {
     background-color: var(--main-bg2-color);
+    color: var(--titles1);
 }
 .card #more-span {
     float: left;
-    color:  var(--main-bg2-color);
+    color:  var(--text1);
     border-bottom: 1px solid;
     border-right: 1px solid;
     border-radius: 2px;
@@ -102,21 +105,23 @@ header {
     box-shadow: var(--boxShadow);
     overflow-x: auto;
     display: flex;
-    flex-direction: colum   n; 
+    flex-direction: column; 
 }
 .card .open-clock {
-    background-color: var(--color2);
+    background-color: var(--btn-color);
+    color: var(--text1);
     border: var(--border);
     border-radius: 5px;
     box-shadow: var(--boxShadow);
 }
 
 #clock-container {
+    background-color: var(--main-bg2-color);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    border: 2px solid black;
+    border: var(--border);
     border-radius: 50%;
     width: 120px;
     height: 120px;
@@ -127,12 +132,17 @@ header {
     display: flex;
     flex-direction: column;
 }
+.card .title-card {
+    margin-top: 2px;
+    font-size: large;
+    font-style: bold;
+}
 #clock-container #title-clock {
     color: black;
     margin-bottom: 5px;
 }
 #clock-container #display-clock {
-    color: #0e1d20;
+    color: var(--text1);
     background-color: rgba(0, 0, 0, 0.514);
     margin-bottom: 5px;
     font-size: 18px;
@@ -142,11 +152,9 @@ header {
 #clock-container #clock-control {
     color: black;
 }
-#clock-container #clock-control {
-    color: black;
-}
+
 #clock-container #clock-control #stop-clock{
-    color: rgb(255, 30, 0);
+    color: var(--dangerColor)
 }
 .card .head-card {
     margin-top: 2px;
@@ -162,8 +170,8 @@ header {
     margin-left: 1%;
 }
 .card .edit-card , .save-card{
-    color: var(--main-bg2-color);
-    background-color: var(--color2);
+    color: var(--text1);
+    background-color: var(--btn-color);
     border: var(--border);
     border-radius: 8px;
     margin-bottom: 3px;
@@ -171,10 +179,9 @@ header {
     margin-right: 2%;
  }
 .card .more-open .delete-card {
-    color: red;
+    color: var(--dangerColor);
     background-color: var(--main-bg2-color);
     border: 1px outset red;
-    border-color: red;
     border-radius: 5px;
     max-height: 30px;
     margin: 5px;
@@ -189,8 +196,8 @@ header {
 }
 
 .card {
-    color: var(--main-bg-color);
-    background-color: var(--color2);
+    color: var(--titles1);
+    background-color: var(--main-bg-color);
     border: var(--border);
     box-shadow: var(--boxShadow);
     border-radius: 8px;

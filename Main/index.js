@@ -42,14 +42,14 @@ function newTask() {
         <div class="head-card">
                 
             </span>
-            <h4 class="title"> Primeira tarefa</h4>
+            <p class="title-card" id="title-card"> Clique no icone para editar a tarefa</p>
             <button id="save-card" class="save-card" style="display:none;"><span class="material-symbols-outlined" > save  </span></button>
             <button id="edit-card" class="edit-card" style="display:block;"><span class="material-symbols-outlined"> edit  </span></button>
 
         </div>
 
         <div class="body-card" id="body-card">
-             <p class="desc">Clique no icone de edicao para editar sua tarefa</p>
+             <p class="desc">Digique aqui sua tarefa, clicando no icone de editar</p>
             <div class="clock-container" id="clock-container" style="display: none;">
                 <h3 class="title-clock" id="title-clock"> <b> Cronometro</b></h3>
                 <div class="display-clock" id="display-clock">

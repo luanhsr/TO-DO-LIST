@@ -1,0 +1,17 @@
+:root {
+    --main-bg-color:  #056CF2;
+    --main-bg2-color: #0e1d20;
+    --border: 2px solid #7CA68B;
+    --color2: #C4EEF2;
+    --color3: #7CA68B; ;
+    --boxShadow: 5px 5px 5px rgba(124, 166, 139, 0.1);
+}
+
+body {
+    background-color: var(--main-bg-color);
+}
+.mainLogin {
+    width: 600px;
+    height: 600px;
+    background-color: antiquewhite;
+}
