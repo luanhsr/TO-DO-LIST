@@ -72,6 +72,19 @@ header {
 .form-group {
     margin-bottom: 15px;
 }
+.verify {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Adicionado para espaçamento entre o input e o ícone */
+}
+[id^="error"] {
+    color: red; /* Define a cor vermelha para ícones de erro  repare a selecao diferente, buscando todos os atributos que comecem com error */
+}
+
+[id^="done"] {
+    color: green; /* Define a cor verde para ícones de confirmação repare a selecao diferente, buscando todos os atributos que comecem com error */
+}
+
 
 label {
     display: block;
