@@ -5,8 +5,8 @@ const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'todolistusuario',
-    password: 'todolistluan',
+    user: 'luan',
+    password: 'Za,46467682',
     database: 'todolist'
 });
 
@@ -14,7 +14,7 @@ connection.connect((err) => {
     if (err) {
         console.log('erro ao conectar ao banco de dados, ' , err);
     } else {
-        console.log('Conexão ao banco de dados bem sucedida.');
+        console.log('Conexão ao banco de dados bem SUUS.');
     }
 })
 
@@ -81,21 +81,24 @@ const server = http.createServer((req, res) => {
     } else if (req.url === '/cadastrar' && req.method==='POST' ) {
         let body ='';
         req.on('data' , (chunk) => {
+            body += chunk.toString();
+        });
+    
+        req.on('end', () => {
             const postData = JSON.parse(body);
-            const {email , senha} = postData;
-            const sql =`INSERT INTO usuarios (email, senha) VALUES ('${email}', '${senha}')`;
-            connection.query(sql, [email, senha], (error, results) => {
+            const {email , password} = postData;
+            const sql =`INSERT INTO user (email, password) VALUES ('${email}', '${password}')`;
+            connection.query(sql, [email, password], (error, results) => {
                 if (error) {
-                    console.error('Erro ao cadastrar usuariio' , error);
+                    console.error('Erro ao cadastrar usuário' , error);
                     res.writeHead(500, {'Content-Type': 'text/plain'});
-                    res.end('Usuario cadastrado com sucesso');
+                    res.end('Erro ao cadastrar usuário');
                 } else {
                     res.writeHead(200, {'Content-Type': 'text/plain'});
-                    res.end('Usuario cadastrado com sucesso.');
+                    res.end('Usuário cadastrado com sucesso.');
                 }
             });
-
-        })
+        });
     }
      else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
