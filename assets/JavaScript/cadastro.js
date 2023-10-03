@@ -46,7 +46,7 @@ function verifyEmail (email) {
         mesageCorrection ('error ' , inputname , ' nao pode estar vazio');
         controlIcon ('error' , idErr , idDone);
     } else if (isEmail(email) == false) {
-        mesageCorrection('error' , inputname, ' esta incompleta precisa ser um email valido');
+        mesageCorrection('error' , inputname, ' esta incompleto precisa ser um email valido');
 
         controlIcon ('error' , idErr , idDone);
     } else if(isEmail(email) == true) {
@@ -75,11 +75,23 @@ function verifyPassword (password) {
     return checked1;
 
 }
-function compareValues(value1, value2) {
-    var inputValue1 = document.getElementById(value1).value;
-    var inputValue2 = document.getElementById(value2).value;
-    return inputValue1 == inputValue2;
+function handleComparison(value1, value2, checkedConfirm, InputsNames,  errorMsg, successMsg, errorIcon, successIcon, statusVariable) {
+    if (checkedConfirm) {
+        
+        input1 = document.getElementById(value1).value;
+        input2 = document.getElementById(value2).value;
+        if (input1 === input2 ) {
+            mesageCorrection('done', InputsNames , successMsg);
+            controlIcon('done', errorIcon, successIcon);
+            statusVariable = true;
+        } else {
+            mesageCorrection('error', InputsNames , errorMsg);
+            controlIcon('error', errorIcon, successIcon);
+            statusVariable = false;
+        }
+    }
 }
+
 function elementsHTML (iconid1 , iconid2 , nameinput) {
     idErr = iconid1;
     idDone = iconid2;
@@ -92,40 +104,30 @@ document.getElementById('email').addEventListener('input', function() {
 document.getElementById('confirmemail').addEventListener('input', function() {
     elementsHTML ('errorconfirmemail' , 'doneconfirmemail' , 'confirmacao de email');
     checkedCEmail = verifyEmail(this.value);
-    if (checkedCEmail == true ){
-        if (compareValues('email' , 'confirmemail') === true ) {
-            mesageCorrection('done' , 'Os campos Emails' , ' estao corretos');;
-            okEmail = true;
-            controlIcon('done', 'errorconfirmemail' , 'doneconfirmemail');
-            console.log(okEmail);
-
-        } else {
-            mesageCorrection('error' , 'Os e-mails' , ' estao diferentes');
-            controlIcon('error', 'errorconfirmemail' , 'doneconfirmemail');
-            okEmail = false;
-            console.log(okEmail);
-        }
-    }
+    handleComparison(
+        'email', 'confirmemail', 
+        checkedCEmail,
+        'Os emails ',
+        'estao diferentes', 
+        ' estao iguais!',
+        'errorconfirmemail', 
+        'doneconfirmemail', 
+        okEmail)
 });
 document.getElementById('password').addEventListener('input', function() {
     elementsHTML ('errorpassword' , 'donepassword' , 'senha');
-    verifyPassword(this.value);
+    checkedPassword = verifyPassword(this.value);
 });
 document.getElementById('confirm-password').addEventListener('input', function() {
     elementsHTML ('errorconfirmpassword' , 'doneconfirmpassword' , 'confirmação de senha');
     checkedCPassword = verifyPassword(this.value);
-    console.log(checkedCPassword)
-    if (checkedCPassword == true ){
-        if (compareValues('password' , 'confirm-password') === true ) {
-            mesageCorrection('done' , 'As senhas' , ' estao iguais');;
-            okPassowrd = true;
-            controlIcon('done', 'errorconfirmpassword' , 'doneconfirmpassword');
-            console.log(okPassowrd)
-        } else {
-            mesageCorrection('error' , 'As senhas' , ' estao difrentes');
-            controlIcon('error', 'errorconfirmpassword' , 'doneconfirmpassword');
-            okPassowrd = false;
-            console.log(okPassowrd)
-        }
-    }
+    handleComparison(
+        'password', 'confirm-password', 
+        checkedCPassword,
+        'As senhas ',
+        'estao diferentes', 
+        ' estao iguais!',
+        'errorconfirmpassword', 
+        'doneconfirmpassword', 
+        okPassowrd);
 });
