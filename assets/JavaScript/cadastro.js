@@ -5,50 +5,48 @@ var checkedPassword = false;
 var checkedCPassword = false;
 var okEmail = false;
 var okPassword = false;
-function mesageCorrection (type ,inputname , messsage){
+function mesageCorrection (type ,inputname , message){
     if (type == 'error') {
         correction.style.color = 'red';
     } else if (type =='done') {
         correction.style.color = 'green';
     }
-        correction.innerHTML = `${inputname}${messsage}`;
+        correction.innerHTML = `${inputname}${message}`;
 }
 function controlIcon(type, id , id2) {
     let iconErr = document.getElementById(id);
     let iconDone = document.getElementById(id2);
     if (type == 'error') {
-        iconErr.style.visibility = 'visible';
-        iconDone.style.visibility = 'hidden';
+        iconErr.style.display= 'block';
+        iconDone.style.display= 'none';
     } else if (type == 'done') {
-        iconErr.style.visibility = 'hidden';
-        iconDone.style.visibility = 'visible';
+        iconErr.style.display= 'none';
+        iconDone.style.display= 'block';
     }
 }
 function isEmail(email) {
     let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
-     /* verifica se tem Qualquer tipo de string;
-        Seguida por um caractere @ (que é obrigatório em e-mails);
-        Seguido por algum outro texto, o domínio/provedor;
-        E então temos a presença de um ponto, que também é obrigatório;
-        E por fim mais um texto, validando tanto emails .com quanto .com.br, e outros que tenham terminologias diferentes*/
 }
+function elementsHTML (iconid1 , iconid2 , nameinput) {
+    idErr = iconid1;
+    idDone = iconid2;
+    inputname = nameinput;
+}   
 function itASequel(password) {
     let re = /(123|234|345|456|567|678|789|8910|1098|987|876|765|654|543|432|321)/;
     return re.test(password);
-    /*
-    verifica na senha se tem uma sequencia de tres digitos
-    */
 }
 function verifyEmail (email) {
     let checked1 = false;
     if (email.length ===0 ){
         mesageCorrection ('error ' , inputname , ' nao pode estar vazio');
         controlIcon ('error' , idErr , idDone);
+        checked1 = false;
     } else if (isEmail(email) == false) {
         mesageCorrection('error' , inputname, ' esta incompleto precisa ser um email valido');
-
         controlIcon ('error' , idErr , idDone);
+        checked1 = false;
     } else if(isEmail(email) == true) {
         mesageCorrection ('done' , inputname, ' é válido');
         controlIcon ('done' , idErr , idDone);
@@ -64,9 +62,11 @@ function verifyPassword (password) {
     } else if (password.length < 4 ) {
         mesageCorrection ('error' , inputname, ' tem que ter ao menos 4 digitos');
         controlIcon('error' , idErr , idDone);
+        checked1 = false;
     } else if (itASequel(password) == true) {
         mesageCorrection ('error' , inputname, ' Nao pode ter uma sequencia de 3 numeros');
         controlIcon('error' , idErr , idDone);
+        checked1 = false;
     } else {
         mesageCorrection ('done' , inputname, ' é válido!');
         controlIcon('done' , idErr , idDone);
@@ -93,12 +93,6 @@ function handleComparison(value1, value2, checkedConfirm, InputsNames,  errorMsg
         return statusVariable;
     }
 }
-
-function elementsHTML (iconid1 , iconid2 , nameinput) {
-    idErr = iconid1;
-    idDone = iconid2;
-    inputname = nameinput;
-}   
 document.getElementById('email').addEventListener('input', function() {
     elementsHTML ('erroremail' , 'doneemail' , 'email');
     checkedEmail = verifyEmail(this.value);
@@ -136,7 +130,7 @@ document.getElementById('confirm-password').addEventListener('input', function()
         return okPassword;
 });
 
-document.querySelector('.getUser').addEventListener('click', function(e) {
+document.querySelector('.setUser').addEventListener('click', function(e) {
     e.preventDefault(); // Impede o comportamento padrão do formulário (que é recarregar a página)
 
     // Verifica se ambas as validações estão ok

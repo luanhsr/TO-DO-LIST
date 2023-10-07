@@ -52,7 +52,7 @@ header {
     object-fit: contain; /* Isto garante que a imagem se ajuste dentro da div mantendo sua proporção */
 }
 
-.register-form h2 {
+.login-form h2 {
     text-align: center;
 }
 .formLogin {
