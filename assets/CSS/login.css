@@ -8,10 +8,6 @@
     --boxShadow: 5px 5px 5px rgba(124, 166, 139, 0.1);
     --dangerColor: rgb(255, 30, 0);
 }
-
-.menu-cards {
-    margin-top: 5%;
-}
 .nav-bar {
     position: fixed;
     top: 0;
@@ -52,9 +48,6 @@ header {
     object-fit: contain; /* Isto garante que a imagem se ajuste dentro da div mantendo sua proporção */
 }
 
-.login-form h2 {
-    text-align: center;
-}
 .formLogin {
     width: 60%;
     height: 100%;
@@ -64,13 +57,14 @@ header {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     padding: 20px; 
 }
-.cadastro-form {
+.login-form {
     text-align: center;
     margin-top: 30px;
 }
 
 .form-group {
     margin-bottom: 15px;
+    display: flex;
 }
 
 label {
@@ -81,14 +75,16 @@ label {
 }
 
 input {
-    width: 90%;
+    width: 70%;
     padding: 8px;
     margin-top: 4px;
     border: 1px solid;
     border-radius: 8px;
+    margin: auto;
 }
 
 button {
+    margin: 10px;
     text-align: center;
     padding: 10px 20px;
     background-color: var(--btn-color);
@@ -110,4 +106,11 @@ button:hover {
 button:focus {
     outline: none; 
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); 
+}
+[id^="error"] {
+    color: red; /* Define a cor vermelha para ícones de erro  repare a selecao diferente, buscando todos os atributos que comecem com error */
+}
+
+[id^="done"] {
+    color: green; /* Define a cor verde para ícones de confirmação repare a selecao diferente, buscando todos os atributos que comecem com error */
 }

@@ -16,7 +16,7 @@
             <span class="material-symbols-outlined">
                 account_circle
             </span>
-            <span class="material-symbols-outlined">
+            <span clafss="material-symbols-outlined">
                 expand_more
             </span>
         </div>
@@ -28,18 +28,24 @@
         </div>
         <div class="formLogin" id="formLogin">
             <form action="" method="post" class="login-form" id="login-form">
-                <h2>Cadastro</h2>
+                <h2>Login</h2>
                 <div class="form-group" id="form-group">
                     <label for="email"> E-mail: </label>
                     <input type="email" name="email" id="email" placeholder="emailexemplo@exemplo.com">
+                    <span class="material-symbols-outlined" id="erroremail"  style="display: none">error</span>
+                    <span class="material-symbols-outlined" id="doneemail" style="display: none"> done </span>
                 </div>
                 <div class="form-group" id="form-group">
                     <label for="password">Senha: </label>
                     <input type="password" name="password" id="password">
+                    <span class="material-symbols-outlined" id="errorpassword"  style="display: none">error</span>
+                    <span class="material-symbols-outlined" id="donepassword" style="display: none"> done </span>
                 </div>
                 <div class="button-container">
                     <button type="submit">Logar</button>
                     <a href="/Cadastro/cadastro.html"> Clique aqui para cadastrar</a>
+                    <br>
+                    <p class="correction" id="correction"><b> Bem vindo! </b></p>
                 </div>
             </form>
         </div>

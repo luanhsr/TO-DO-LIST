@@ -38,7 +38,10 @@ header {
     box-shadow: var(--boxShadow);
     border-radius: 8px;
 }
-
+.profile {
+    background-color: var(--main-bg2-color);
+    color:  var(--text1);
+}
 .card-container {
    /* */
     display: flex; /* deixa todos os items lado a lado*/

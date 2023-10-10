@@ -8,10 +8,6 @@
     --boxShadow: 5px 5px 5px rgba(124, 166, 139, 0.1);
     --dangerColor: rgb(255, 30, 0);
 }
-
-.menu-cards {
-    margin-top: 5%;
-}
 .nav-bar {
     position: fixed;
     top: 0;

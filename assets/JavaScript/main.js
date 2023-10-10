@@ -233,11 +233,13 @@ function setupClock() {
         let clockContainer = e.target.closest('#clock-container');
 
         if (clockContainer) {
+            console.log(clockContainer)
             let parentCard = clockContainer.closest('.card');
             let cardId = parentCard.id;
 
             if (!clockWorkers[cardId]) {
-                clockWorkers[cardId] = new Worker('clockWorker.js');
+                clockWorkers[cardId] = new Worker('/assets/JavaScript/clockWorker.js'); // Caminho corrigido
+
             }
 
             let playClock = e.target.closest('#play-clock');
@@ -246,6 +248,7 @@ function setupClock() {
 
             if (playClock) {
                 clockWorkers[cardId].postMessage({ action: 'iniciar' });
+                console.log('iniciar')
             }
 
             if (pauseClock) {
