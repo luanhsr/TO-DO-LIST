@@ -1,29 +1,4 @@
-document.getElementById('login-form').addEventListener('submit' , function(e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    fetch('/logar', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-    }).then(response => response.json()).then(data => {
-        if (data.success) {
-            console.log('Login bem-sucedido. Redirecionando...');
-            window.location.href = data.redirect;
-        } else {
-            console.error('Erro ao fazer login:', data.message);
-        }
-    }).catch(error => console.error('Erro', error));
-    
-    
-});
-
-
 const correction = document.getElementById('correction');
-
 function mesageCorrection (type ,inputname , message){
     if (type == 'error') {
         correction.style.color = 'red';
@@ -102,4 +77,38 @@ document.getElementById('email').addEventListener('input', function() {
 document.getElementById('password').addEventListener('input', function() {
     elementsHTML ('errorpassword' , 'donepassword' , 'senha');
     checkedPassword = verifyPassword(this.value);
+});
+document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Realiza a requisição para /logar, sem token no cabeçalho
+    fetch(`http://localhost:4000/auth?email=${email}&password=${password}`, {
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(res => {
+         if (res.status === 401) {
+            mesageCorrection ('error' , ' ' , 'email ou senha invalido');
+            controlIcon('error', 'erroremail' , 'doneemail');
+            controlIcon('error', 'errorpassword' , 'donepassword');
+        } else if (res.status === 200) {
+            mesageCorrection ('done' , ' ' , 'usuario localizado');
+            controlIcon('done', 'erroremail' , 'doneemail');
+            controlIcon('done', 'errorpassword' , 'donepassword');
+            return res.json();
+        } else {
+            mesageCorrection ('error' , ' ' , 'erro no servidor contete adm');
+            console.log(res.status)
+        }
+    })
+    .then(data => {
+        if (data.userID) {
+            sessionStorage.setItem('userID', data.userID);
+               fetch('http://localhost:4000/main' , {
+                headers: {'Content-Type': 'application/json'}
+            }).catch(error => console.error('Ocorreu um erro: ', error));
+        }
+    })
+    .catch(error => console.error('Ocorreu um erro: ', error));
 });

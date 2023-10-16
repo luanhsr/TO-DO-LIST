@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Protegida</title>
+</head>
+<body>
+    <h1>Página Protegida</h1>
+    <div id="userData"></div>
+
+    <script>
+        // Verifica se o usuário está autenticado
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if (user) {
+            // Exibe os dados do usuário
+            const userDataElement = document.getElementById('userData');
+            userDataElement.textContent = `Usuário Logado: ${user.username}`;
+        } else {
+            // Redireciona para a página de login se o usuário não estiver autenticado
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

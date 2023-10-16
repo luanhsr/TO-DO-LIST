@@ -1,3 +1,7 @@
+let teste = sessionStorage.getItem('userID');
+let profile = document.getElementById('profile-email');
+profile.innerHTML = teste;  
+console.log(teste);
 setupEditButtons (); 
 setupSaveButtons();
 setupDeleteButtons ();
